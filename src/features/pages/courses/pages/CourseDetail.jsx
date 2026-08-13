@@ -21,10 +21,16 @@ import EditEntregaModal from '../components/EditEntregaModal'
 import DeleteEntregaModal from '../components/DeleteEntregaModal'
 
 function normalizeEntrega(e) {
+  const st = e.student
+  const student_name = typeof st === 'string'
+    ? st
+    : typeof st === 'object' && st
+      ? `${st.first_name ?? ''} ${st.last_name ?? ''}`.trim() || st.username
+      : `Estudiante #${st}`
   return {
     ...e,
     files: (e.archivos ?? []).map(a => a.file),
-    student_name: typeof e.student === 'string' ? e.student : `Estudiante #${e.student}`,
+    student_name,
   }
 }
 

@@ -9,16 +9,17 @@ export default function GradeModal({ entrega, maxScore, onSave, onClose }) {
 
   const gradeNum = parseInt(grade, 10)
   const valid = !isNaN(gradeNum) && gradeNum >= 0 && gradeNum <= maxScore
+  const studentName = entrega.student_name ?? (typeof entrega.student === 'object' ? entrega.student?.username : entrega.student)
 
   return (
-    <ModalWrapper title={`Calificar a ${entrega.student_name ?? entrega.student}`} onClose={onClose}>
+    <ModalWrapper title={`Calificar a ${studentName}`} onClose={onClose}>
       <div className="mb-5">
         <div className="flex items-center gap-3 bg-[#f8f9fa] rounded-xl p-3 mb-4">
           <div className="w-9 h-9 rounded-full bg-[#e8f0fe] flex items-center justify-center text-xs font-medium text-[#1a73e8] shrink-0">
-            {(entrega.student_name ?? entrega.student)?.toString().split(' ').map(n => n[0]).join('')}
+            {studentName?.toString().split(' ').map(n => n[0]).join('')}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-[#202124]">{entrega.student_name ?? entrega.student}</p>
+            <p className="text-sm font-medium text-[#202124]">{studentName}</p>
             <p className="text-xs text-[#5f6368]">Entregado {formatDate(entrega.submitted_at)} · <span className={entrega.status === 'a_tiempo' ? 'text-[#1e8e3e]' : 'text-[#c5221f]'}>{entrega.status === 'a_tiempo' ? 'a tiempo' : 'tarde'}</span></p>
           </div>
         </div>

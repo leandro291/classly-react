@@ -8,12 +8,16 @@ function avatarColor(name) {
   return AVATAR_COLORS[h % AVATAR_COLORS.length]
 }
 
+function studentDisplay(e) {
+  return e.student_name ?? (typeof e.student === 'object' ? e.student?.username : e.student)
+}
+
 export default function TeacherSubmissionList({ entregas, maxScore, onGrade }) {
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
 
   const filtered = entregas.filter(e => {
-    const studentName = (e.student_name ?? e.student)?.toString() ?? ''
+    const studentName = studentDisplay(e)?.toString() ?? ''
     const matchSearch = studentName.toLowerCase().includes(search.toLowerCase())
     const matchFilter = filter === 'all' || (filter === 'graded' ? e.score !== null && e.score !== undefined : e.score === null || e.score === undefined)
     return matchSearch && matchFilter
@@ -73,11 +77,11 @@ export default function TeacherSubmissionList({ entregas, maxScore, onGrade }) {
         ) : filtered.map(e => (
           <div key={e.id} className="border border-[#e8eaed] rounded-xl p-3 hover:border-[#1a73e8] hover:bg-[#fafbff] transition-all cursor-pointer" onClick={() => onGrade(e)}>
             <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: avatarColor((e.student_name ?? e.student)?.toString() ?? '') }}>
-                {(e.student_name ?? e.student)?.toString().split(' ').map(n => n[0]).join('')}
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: avatarColor(studentDisplay(e)?.toString() ?? '') }}>
+                {studentDisplay(e)?.toString().split(' ').map(n => n[0]).join('')}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-[#202124] truncate font-medium">{e.student_name ?? e.student}</p>
+                <p className="text-sm text-[#202124] truncate font-medium">{studentDisplay(e)}</p>
                 <p className="text-[11px] text-[#80868b]">{formatDate(e.submitted_at)}</p>
               </div>
               <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full shrink-0 ${e.status === 'a_tiempo' ? 'bg-[#e6f4ea] text-[#1e8e3e]' : 'bg-[#fce8e6] text-[#c5221f]'}`}>
