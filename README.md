@@ -1,8 +1,17 @@
-# Classly - Frontend React
+<h1 align="center">Classly</h1>
+<p align="center">Aula virtual inspirada en Google Classroom. Los profesores publican material y tareas; los estudiantes se unen con un código y entregan sus trabajos.</p>
 
-Aplicación web de aula virtual inspirada en Google Classroom. Permite a **profesores** crear clases, publicar material y tareas, revisar entregas y calificar; y a **estudiantes** unirse a clases mediante un código, consultar material, entregar tareas y ver sus calificaciones.
+<p align="center">
+  <img src="https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+  <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+</p>
 
-El frontend consume una API REST (Django) que provee autenticación y persistencia de datos.
+<p align="center">
+  <a href="https://classly-react.vercel.app"><img src="https://img.shields.io/badge/Ver_demo-2F81F7?style=for-the-badge&logo=vercel&logoColor=white" alt="Ver demo"></a>
+  <a href="https://github.com/leandro291/classly-django"><img src="https://img.shields.io/badge/Backend-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Backend"></a>
+</p>
 
 ## Tabla de contenidos
 
