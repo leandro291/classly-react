@@ -11,8 +11,8 @@ import Button from '../../../../common/components/Button'
 // Cuentas de demostración creadas por `seed_demo` en el backend
 const DEMO_PASSWORD = '123'
 const DEMOS = [
-  { email: 'profesor@example.com', label: 'Entrar como profesor' },
-  { email: 'alumno@example.com', label: 'Entrar como alumno' },
+  { email: 'profesor@example.com', role: 'Profesor', label: 'Entrar como profesor' },
+  { email: 'alumno@example.com', role: 'Alumno', label: 'Entrar como alumno' },
 ]
 
 export default function LoginPage() {
@@ -139,6 +139,16 @@ export default function LoginPage() {
                     </Button>
                   ))}
                 </div>
+                <dl className="mt-3 text-xs text-ink-muted grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                  {DEMOS.map(d => (
+                    <div key={d.email} className="contents">
+                      <dt>{d.role}</dt>
+                      <dd className="font-mono text-ink break-all">{d.email}</dd>
+                    </div>
+                  ))}
+                  <dt>Contraseña</dt>
+                  <dd className="font-mono text-ink">{DEMO_PASSWORD}</dd>
+                </dl>
               </div>
             )}
           </div>
