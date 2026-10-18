@@ -11,8 +11,13 @@ export default function useClickOutside(onClickOutside) {
         handlerRef.current()
       }
     }
+    const onKey = e => { if (e.key === 'Escape') handlerRef.current() }
     document.addEventListener('mousedown', listener)
-    return () => document.removeEventListener('mousedown', listener)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', listener)
+      document.removeEventListener('keydown', onKey)
+    }
   }, [])
 
   return ref

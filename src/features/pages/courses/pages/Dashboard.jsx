@@ -3,14 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { useToast } from '../../../../common/components/Toast'
 import useClickOutside from '../../../../common/hooks/useClickOutside'
-import { CARD_COLORS } from '../utils/constants'
+import { courseColor } from '../utils/constants'
 import { getCourses, createCourse, updateCourse, deleteCourse, joinCourse } from '../services/courseService'
 import CourseCard from '../components/CourseCard'
 import CourseFormModal from '../components/CourseFormModal'
-import DeleteCourseModal from '../components/DeleteCourseModal'
+import DeleteModal from '../components/DeleteModal'
 import JoinCourseModal from '../components/JoinCourseModal'
 import MenuOption from '../components/MenuOption'
 import { TeacherEmptyState, EmptyState } from '../components/EmptyStates'
+import { LoadError } from '../components/primitives'
+import Icon from '../../../../common/components/Icon'
+import Logo from '../../../../common/components/Logo'
 
 export default function Dashboard() {
   const navigate = useNavigate()
@@ -20,6 +23,8 @@ export default function Dashboard() {
 
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const [courseModal, setCourseModal] = useState(null)
   const [showMenu, setShowMenu] = useState(false)
   const [showJoinCourse, setShowJoinCourse] = useState(false)
@@ -36,71 +41,62 @@ export default function Dashboard() {
     let active = true
     getCourses()
       .then(data => { if (active) setCourses(activeCourses(data)) })
-      .catch(() => toast('Error al cargar las clases', 'error'))
+      .catch(() => { if (active) setLoadError(true) })
       .finally(() => { if (active) setLoading(false) })
     return () => { active = false }
-  }, [toast])
+  }, [attempt])
+
+  function retryLoad() {
+    setLoadError(false)
+    setLoading(true)
+    setAttempt(a => a + 1)
+  }
+
+  // Los errores de escritura suben al modal/formulario, que los muestra en línea y conserva lo escrito.
+  function reloadCourses() {
+    getCourses().then(data => setCourses(activeCourses(data))).catch(() => toast('No se pudo actualizar las clases', 'error'))
+  }
 
   async function handleJoined(code) {
+    await joinCourse(code)
     setShowJoinCourse(false)
-    try {
-      await joinCourse(code)
-      const data = await getCourses()
-      setCourses(activeCourses(data))
-      toast('Te uniste a la clase')
-    } catch {
-      toast('Código inválido o ya estás inscrito en este curso.', 'error')
-    }
+    toast('Te uniste a la clase')
+    reloadCourses()
   }
 
   async function handleSaveCourse(data) {
-    try {
-      if (courseModal?.type === 'create') {
-        await createCourse(data)
-        toast('Clase creada')
-      } else if (courseModal?.type === 'edit') {
-        await updateCourse(courseModal.course.id, data)
-        toast('Clase actualizada')
-      }
-      const coursesData = await getCourses()
-      setCourses(activeCourses(coursesData))
-    } catch {
-      toast('No se pudo guardar la clase', 'error')
+    if (courseModal?.type === 'create') {
+      await createCourse(data)
+      toast('Clase creada')
+    } else if (courseModal?.type === 'edit') {
+      await updateCourse(courseModal.course.id, data)
+      toast('Clase actualizada')
     }
     setCourseModal(null)
+    reloadCourses()
   }
 
   async function handleDeleteCourse(course) {
-    try {
-      await deleteCourse(course.id)
-      setCourses(prev => prev.filter(c => c.id !== course.id))
-      toast('Clase eliminada', 'info')
-    } catch {
-      toast('No se pudo eliminar la clase', 'error')
-    }
+    await deleteCourse(course.id)
+    setCourses(prev => prev.filter(c => c.id !== course.id))
+    toast('Clase eliminada', 'info')
     setCourseModal(null)
   }
 
   const initials = `${user.first_name[0]}${user.last_name[0]}`.toUpperCase()
   const fullName = `${user.first_name} ${user.last_name}`
 
-  function openCourse(course, i) {
-    const color = CARD_COLORS[i % CARD_COLORS.length]
-    navigate(`/curso/${course.id}`, { state: { course, color } })
+  function openCourse(course) {
+    navigate(`/curso/${course.id}`, { state: { course } })
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f4]">
+    <div className="min-h-dvh bg-canvas">
       <header className="bg-white shadow-sm h-16 flex items-center px-4 gap-4 sticky top-0 z-30">
 
         <div className="flex items-center gap-2 mr-4">
-          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-            <rect width="40" height="40" rx="8" fill="#1a73e8"/>
-            <path d="M10 28V14l10-6 10 6v14l-10 4-10-4z" fill="white" opacity="0.9"/>
-            <rect x="15" y="19" width="10" height="9" fill="#1a73e8"/>
-            <rect x="17" y="14" width="6" height="5" rx="1" fill="white"/>
-          </svg>
-          <span style={{ fontFamily: "'Google Sans', 'Roboto', sans-serif" }} className="text-xl font-medium text-[#202124] hidden sm:block">
+          <Logo />
+          <span className="font-display text-xl font-medium text-ink hidden sm:block">
             Classly
           </span>
         </div>
@@ -109,16 +105,18 @@ export default function Dashboard() {
 
         <div className="relative" ref={menuRef}>
           <button
+            type="button"
             onClick={() => setShowMenu(v => !v)}
-            className="p-2 rounded-full hover:bg-[#f1f3f4] transition-colors"
+            className="p-2 pointer-coarse:p-3 rounded-full hover:bg-canvas transition-colors"
             title="Agregar"
+            aria-label="Agregar"
+            aria-haspopup="menu"
+            aria-expanded={showMenu}
           >
-            <svg width="22" height="22" fill="#5f6368" viewBox="0 0 24 24">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-            </svg>
+            <Icon name="add" size={22} className="text-ink-muted" />
           </button>
           {showMenu && (
-            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-[#e8eaed] w-52 py-1 z-50">
+            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-52 py-1 z-50">
               {isTeacher ? (
                 <MenuOption
                   icon="school"
@@ -138,23 +136,27 @@ export default function Dashboard() {
 
         <div className="relative" ref={userMenuRef}>
           <button
+            type="button"
             onClick={() => setShowUserMenu(v => !v)}
-            className="w-9 h-9 rounded-full bg-[#1a73e8] text-white text-sm font-medium flex items-center justify-center hover:ring-2 hover:ring-[#1a73e8]/30 transition-all"
+            aria-label="Cuenta"
+            aria-haspopup="menu"
+            aria-expanded={showUserMenu}
+            className="w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-brand text-white text-sm font-medium flex items-center justify-center hover:ring-2 hover:ring-brand/30 transition-all"
           >
             {initials}
           </button>
           {showUserMenu && (
-            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-[#e8eaed] w-56 sm:w-64 py-2 z-50">
-              <div className="px-4 py-3 border-b border-[#e8eaed]">
-                <p className="text-sm font-medium text-[#202124]">{fullName}</p>
-                <p className="text-xs text-[#5f6368]">{user.email}</p>
-                <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs bg-[#e8f0fe] text-[#1a73e8] font-medium">
+            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-56 sm:w-64 py-2 z-50">
+              <div className="px-4 py-3 border-b border-hairline">
+                <p className="text-sm font-medium text-ink">{fullName}</p>
+                <p className="text-xs text-ink-muted">{user.email}</p>
+                <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs bg-brand-tint text-brand-dark font-medium">
                   {isTeacher ? 'Profesor' : 'Estudiante'}
                 </span>
               </div>
               <button
                 onClick={logout}
-                className="w-full text-left px-4 py-2.5 text-sm text-[#202124] hover:bg-[#f1f3f4] transition-colors"
+                className="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-canvas transition-colors"
               >
                 Cerrar sesión
               </button>
@@ -165,20 +167,22 @@ export default function Dashboard() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {loading ? (
-          <div className="flex items-center justify-center py-24 text-sm text-[#5f6368]">Cargando clases…</div>
+          <div role="status" className="flex items-center justify-center py-24 text-sm text-ink-muted">Cargando clases…</div>
+        ) : loadError ? (
+          <div className="flex justify-center py-24"><LoadError message="No se pudieron cargar tus clases." onRetry={retryLoad} /></div>
         ) : courses.length === 0 ? (
           isTeacher
             ? <TeacherEmptyState onCreate={() => setCourseModal({ type: 'create' })} />
             : <EmptyState onJoin={handleJoined} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {courses.map((course, i) => (
+            {courses.map(course => (
               <CourseCard
                 key={course.id}
                 course={course}
-                color={CARD_COLORS[i % CARD_COLORS.length]}
+                color={courseColor(course)}
                 isTeacher={isTeacher}
-                onClick={() => openCourse(course, i)}
+                onClick={() => openCourse(course)}
                 onEdit={isTeacher ? () => setCourseModal({ type: 'edit', course }) : undefined}
                 onDelete={isTeacher ? () => setCourseModal({ type: 'delete', course }) : undefined}
               />
@@ -200,11 +204,13 @@ export default function Dashboard() {
       )}
 
       {courseModal?.type === 'delete' && (
-        <DeleteCourseModal
-          course={courseModal.course}
+        <DeleteModal
+          title="¿Eliminar clase?"
           onConfirm={() => handleDeleteCourse(courseModal.course)}
           onClose={() => setCourseModal(null)}
-        />
+        >
+          Se eliminará <strong>"{courseModal.course.name}"</strong> junto con todo su material y tareas. Esta acción no se puede deshacer.
+        </DeleteModal>
       )}
     </div>
   )

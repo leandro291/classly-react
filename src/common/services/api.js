@@ -118,7 +118,14 @@ export async function joinCourse(registration_code) {
     headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify({ registration_code }),
   })
-  if (!res.ok) throw new Error('Código inválido o ya estás inscrito en este curso.')
+  if (!res.ok) {
+    const data = await res.json().catch(() => null)
+    const msg = data ? JSON.stringify(data).toLowerCase() : ''
+    if (msg.includes('inscrito')) throw new Error('Ya estás en esta clase.')
+    if (msg.includes('propio')) throw new Error('Eres el profesor de esta clase: no puedes unirte como estudiante.')
+    if (res.status === 400 || res.status === 404) throw new Error('No encontramos una clase activa con ese código. Revisa que esté completo y respeta mayúsculas y minúsculas.')
+    throw new Error('No se pudo unir a la clase. Inténtalo de nuevo.')
+  }
   return res.json()
 }
 

@@ -45,6 +45,8 @@
 ├── vite.config.js                # Configuración de Vite (React + Tailwind)
 ├── .env                          # Variables de entorno (URL de la API)
 ├── .oxlintrc.json                # Reglas del linter
+├── DESIGN.md                     # Sistema de diseño (tokens, tipografía, componentes)
+├── PRODUCT.md                    # Contexto de producto (usuarios, principios, accesibilidad)
 └── src/
     ├── main.jsx                  # Punto de entrada de la aplicación
     ├── index.css                 # Estilos globales (fuentes, tema, animaciones)
@@ -55,8 +57,8 @@
     │   ├── index.jsx             # Definición de rutas
     │   └── ProtectedRoute.jsx    # Guard para rutas privadas
     ├── common/
-    │   ├── components/Toast.jsx  # Sistema de notificaciones
-    │   ├── hooks/useClickOutside.js
+    │   ├── components/           # Button, FormField, Icon, Logo, Toast
+    │   ├── hooks/                # useClickOutside, useAction
     │   ├── services/api.js       # Cliente HTTP + gestión de sesión
     │   └── utils/formatDate.js
     └── features/
@@ -78,10 +80,10 @@
 1. El usuario entra a `/`. Si no está autenticado, `ProtectedRoute` lo redirige a `/login`.
 2. En `/login` puede iniciar sesión o registrarse (estudiante/profesor). Al autenticarse se guardan tokens y datos del usuario en `localStorage` y se navega a `/`.
 3. En el **Dashboard** ve la grilla de clases activas. Un profesor puede **crear/editar/eliminar** clases; un estudiante puede **unirse** con un código de 8 caracteres.
-4. Al hacer clic en una clase se va a `/curso/:id`, donde hay 3 pestañas:
+4. Al hacer clic en una clase se va a `/curso/:id`, donde hay 3 pestañas (cada una con su URL: `/material`, `/tareas`; una tarea o un material abre `/tarea/:id` o `/material/:id`, y recargar o compartir el enlace conserva la vista):
    - **Novedades**: feed con código de la clase y contenido reciente.
    - **Material**: publicaciones de archivos por el profesor.
-   - **Tareas**: tareas con fecha de entrega, estado (vencida/hoy/mañana), entregas y notas.
+   - **Tareas**: tareas con fecha de entrega, estado (vencida / vence hoy / vence mañana / vence en N días), entregas y notas.
 5. Dentro de una tarea, el estudiante entrega (comentario + archivos) y el profesor revisa las entregas y califica.
 
 ## Explicación detallada por módulo
@@ -90,7 +92,7 @@
 
 **`src/main.jsx`** — Monta la aplicación en el elemento `#root` usando `createRoot` (React 19) y la envuelve en `<StrictMode>`. Importa los estilos globales `index.css`.
 
-**`src/index.css`** — Importa las fuentes (Roboto y Google Sans) y Tailwind. Define el tema con `@theme` (colores `brand` y `brand-dark`, tipografías), estilos base de `body`, scrollbars personalizados y la animación `fadeSlideIn` (usada por las clases `.page-enter`).
+**`src/index.css`** — Importa las fuentes (Roboto y Google Sans) y Tailwind. Define el tema con `@theme static` (todos los colores como tokens semánticos: `brand`, `ink`, `hairline`, `danger-text`, `course-*`…, y las tipografías). Las fuentes se cargan por `<link>` en `index.html`, estilos base de `body`, scrollbars personalizados y la animación `fadeSlideIn` (usada por las clases `.page-enter`).
 
 ### 2. Configuración y enrutado
 
@@ -109,7 +111,7 @@
 |---|---|---|
 | `/login` | `LoginPage` | No |
 | `/` | `Dashboard` | Sí |
-| `/curso/:id` | `CourseDetail` | Sí |
+| `/curso/:id/*` | `CourseDetail` (pestañas y sub-vistas por URL) | Sí |
 | `*` | Redirección a `/` | — |
 
 **`src/router/ProtectedRoute.jsx`** — Componente guard: lee el usuario del contexto de autenticación. Si no existe, redirige a `/login` con `<Navigate replace>`; si existe, renderiza `children`.
@@ -137,7 +139,11 @@
 
 **`src/common/hooks/useClickOutside.js`** — Hook que devuelve una `ref` para asignar a un elemento. Escucha `mousedown` globalmente y ejecuta el callback si el clic ocurre fuera del elemento (se usa para cerrar menús). Usa `handlerRef` para no volver a suscribir el listener en cada render.
 
-**`src/common/utils/formatDate.js`** — Formatea una fecha con `toLocaleDateString('es-PE', ...)` (día numérico, mes corto, año). Devuelve cadena vacía si no recibe fecha.
+**`src/common/utils/formatDate.js`** — `formatDate` formatea con `toLocaleDateString('es-PE', ...)`. Las fechas `YYYY-MM-DD` del backend (`due_date`) se leen como día local (`parseDate`) para no mostrar el día anterior en Perú. `dueInfo` calcula la etiqueta y el tono de plazo; la tarea vence al terminar su fecha límite.
+
+**`src/common/hooks/useAction.js`** — Ejecuta una acción async una sola vez a la vez y expone `{ run, pending, error }`. Los modales y formularios lo usan para evitar el doble envío y mostrar el error en línea conservando lo escrito (los errores de red se muestran como «Sin conexión…»).
+
+**`src/common/components/`** — `Button` (variantes `primary` / `text`), `FormField`, `Icon` (iconos repetidos por nombre), `Logo`.
 
 ### 4. Autenticación (`features/auth`)
 
@@ -153,7 +159,7 @@
 - Estado local: `mode` ('login'|'register'), `loading`, `error` y `form` (email, password, username, first_name, last_name, telephone, rol).
 - En modo registro muestra campos adicionales y selector de rol (estudiante/profesor).
 - `handleSubmit`: previene el envío por defecto, llama a `loginUser` o `registerUser`, guarda el usuario en el contexto (`login()`) y navega a `/`. En caso de error muestra el mensaje en un recuadro rojo.
-- Componente auxiliar `Field`: input con *floating label* (label animado que se mueve sobre el borde usando clases `peer` de Tailwind).
+- Usa `FormField` (`common/components`): input con *floating label* asociado a su `<input>` por `htmlFor`.
 
 ### 5. Cursos (`features/courses`)
 
@@ -165,27 +171,28 @@
 - Según el rol:
   - **Profesor**: el menú `+` abre `CourseFormModal` para crear; las tarjetas tienen menú de editar/eliminar. Si no hay clases muestra `TeacherEmptyState`.
   - **Estudiante**: el menú `+` abre `JoinCourseModal` (unirse con código de 8 caracteres). Si no hay clases muestra `EmptyState` con input de código.
-- `openCourse(course, i)`: navega a `/curso/:id` pasando el curso y un color (de `CARD_COLORS`, rotando con `i % length`) por el **estado del router** (`state`).
+- `openCourse(course)`: navega a `/curso/:id` pasando el curso por el **estado del router** (`state`). El color sale de `courseColor(course)` (por `id`, estable).
+- Si la carga de clases falla se muestra un error con «Reintentar», distinto del estado vacío.
 - Handlers `handleSaveCourse`, `handleDeleteCourse`, `handleJoined` que llaman a la API y refrescan la lista, mostrando toasts de resultado.
 
 **`CourseDetail.jsx`** — Vista de un curso (controlador central de la funcionalidad del curso). Puntos clave:
-- **Estado**: `view` (course / material / task), `tab` (stream/materials/tasks), `modal` (actúa como *un solo slot* para el modal activo), `materials`, `tareas`, `entregasByTarea` (mapa `{tareaId: entregas}`).
+- **Estado**: la sección y la tarea o el material abiertos salen de la **URL** (`useParams`); `modal` (actúa como *un solo slot* para el modal activo), `materials`, `tareas`, `entregasByTarea` (mapa `{tareaId: entregas}`).
 - **Recuperación de datos**: en `useEffect` carga materiales y tareas en paralelo con `Promise.all`, luego dispara `loadEntregas` por cada tarea. La función `loadEntregas` normaliza las entregas con `normalizeEntrega` (convierte `archivos` → `files` y `student` → `student_name`).
-- **Guard**: si llega sin `state.course` (recarga directa de la URL), redirige a `/`.
-- **Navegación interna**: al abrir un material/tarea se cambia `view`, y se renderiza `MaterialPage`/`TaskPage` (con datos *en vivo* re-buscados por id). Esto da una transición tipo "sub-página".
+- **Clase por URL**: `CourseDetail` usa `location.state.course` si existe; si no (recarga o enlace) la busca con `getCourses()`. Si no existe muestra un mensaje con salida al panel.
+- **Navegación interna**: al abrir un material/tarea se navega a `/tarea/:id` o `/material/:id`, y se renderiza `MaterialPage`/`TaskPage` (con datos *en vivo* re-buscados por id). Esto da una transición tipo "sub-página".
 - **Handlers** de CRUD:
   - `handleSaveMaterial` / `handleDeleteMaterial`.
   - `handleSaveTask` / `handleDeleteTask` (re-sincronizan tareas y entregas).
   - `handleGrade(entregaId, tareaId, score, comment)`: califica y recarga las entregas de esa tarea.
   - `handleEditEntrega`, `handleDeleteEntrega` (toman la entrega propia, la primera del array).
-  - `handleEntregar(tarea, comment, files)`: crea la entrega y vuelve a la vista de curso.
+  - `handleEntregar(tarea, comment, files)`: crea la entrega y recarga; el estudiante se queda en la tarea viendo su entrega. Los handlers de modal no capturan el error: sube al modal, que lo muestra en línea y sigue abierto.
 - **Render**: cabecera de color con nombre del curso, barra de pestañas sticky (debajo del navbar sticky `top-16`), y render condicional por tab con los componentes de sección. Los modales se renderizan según `modal.type`.
 
 #### Servicios y constantes
 
 **`courseService.js`** — Simplemente re-exporta todas las funciones de `common/services/api.js` para agrupar el acceso a datos del feature.
 
-**`utils/constants.js`** — Paletas de colores: `CARD_COLORS` (8 colores para tarjetas de curso y cabeceras) y `AVATAR_COLORS` (colores para avatares de estudiantes).
+**`utils/constants.js`** — `CARD_COLORS` (8 colores de clase como `var(--color-course-*)`, también usados en avatares), `courseColor`, `CODE_LENGTH` (8) y `ENTREGA_STATUS` (etiqueta y color de «A tiempo» / «Con retraso»).
 
 #### Componentes de UI
 
@@ -193,30 +200,30 @@
 - **`NavBar.jsx`**: header sticky con botón de volver (flecha) y logo/título.
 
 **Tarjetas y estados:**
-- **`CourseCard.jsx`**: tarjeta de clase con cabecera de color, nombre, periodo, menú de 3 puntos para profesor (editar/eliminar, cerrado con `useClickOutside`), badges de estado inactivo, y fila de iconos (personas, carpeta, tareas).
+- **`CourseCard.jsx`**: tarjeta de clase con cabecera de color, nombre, periodo, menú de 3 puntos para profesor (editar/eliminar, cerrado con `useClickOutside`), y badge de estado inactivo.
 - **`EmptyStates.jsx`**: `TeacherEmptyState` (invita a crear la primera clase) y `EmptyState` (formulario de código de 8 caracteres para estudiantes). Ambos con ilustraciones SVG.
 - **`MenuOption.jsx`**: elemento de menú con icono (school/login) y etiqueta.
 
 **Primitivas reutilizables (`primitives.jsx`):**
-- `ModalWrapper`: contenedor de modal (overlay oscuro + tarjeta centrada con scroll).
-- `FormField`: input con *floating label*.
-- `ModalActions`: botones Cancelar/Confirmar.
+- `ModalWrapper`: modal sobre `<dialog>` nativo (foco atrapado, Esc, fondo inerte, devuelve el foco al abrir/cerrar).
+- `ModalActions`: botones Cancelar/Confirmar con estado «Procesando…» y error en línea.
+- `FormError`, `LoadError`, `DueChip`, `SelectedFile`.
 - `FileChip`: ficha de archivo (ícono + nombre + flecha de descarga). Si tiene `href` es un `<a target="_blank">`.
-- `IconBtn`: botón circular con icono (variante `danger` roja).
+- `IconBtn`: botón circular con icono por nombre (variante `danger` roja).
 - `EmptySection`: mensaje de "sin contenido".
 
 **Pestañas del curso:**
-- **`StreamTab.jsx`**: panel de novedades. Columna lateral con código de clase (botón copiar con `navigator.clipboard`), contadores de material y tareas. Columna principal con feeds de "Próximas entregas" y "Material reciente" (hasta 3 ítems) o un estado vacío.
+- **`StreamTab.jsx`**: panel de novedades. Columna lateral con código de clase (botón copiar con `navigator.clipboard`), contadores de material y tareas. Columna principal con feeds de "Tareas recientes" y "Material reciente" (hasta 3 ítems) o un estado vacío.
 - **`MaterialsTab.jsx`**: lista de materiales. Botón "Nuevo material" solo para profesor; por ítem muestra ícono, título, descripción, fecha, y acciones editar/eliminar (profesor) o flecha (estudiante).
-- **`TasksTab.jsx`**: lista de tareas con lógica de vencimiento: calcula `overdue` y `daysLeft`, muestra badges de color (vencida/rojo, ≤3 días/ámbar, normal/azul). Para estudiante marca si está entregada y si fue "Entregada" o "Tardía"; para profesor muestra conteo de entregas y calificadas.
+- **`TasksTab.jsx`**: lista de tareas con lógica de vencimiento: muestra `DueChip` (vencida/rojo, ≤3 días/ámbar, resto/gris). Para estudiante marca si está "Entregada" o "Entregada con retraso"; para profesor muestra conteo de entregas y calificadas.
 
 **Páginas de detalle (sub-vistas):**
 - **`MaterialPage.jsx`**: vista completa de un material: encabezado con autor y fecha, descripción y lista de archivos (`FileChip`).
 - **`TaskPage.jsx`**: vista de una tarea. Muestra instrucciones, archivo del profesor y un panel lateral:
   - **Profesor**: `TeacherSubmissionList` con todas las entregas.
-  - **Estudiante sin entrega**: formulario de entrega (comentario + archivos múltiples con previsualización y quitar).
-  - **Estudiante con entrega**: estado (a tiempo/tardía), calificación y comentario del profesor, archivos, y botones editar/retirar.
-- **`TeacherSubmissionList.jsx`**: lista de entregas para el profesor con estadísticas (entregas/calificadas/pendientes), buscador por nombre, filtro Todos/Pendientes/Calificadas, y avatares con color derivado del nombre (`avatarColor` con hash). Cada tarjeta abre el modal de calificación.
+  - **Estudiante sin entrega**: formulario de entrega (comentario + archivos múltiples con previsualización y quitar). Al enviar muestra «Entregando…», bloquea los campos y, si falla, deja el error junto al formulario sin perder lo escrito. Mientras cargan las entregas o si la carga falla no se muestra el formulario.
+  - **Estudiante con entrega**: estado (a tiempo/con retraso), calificación y comentario del profesor, archivos, y botones editar/retirar.
+- **`TeacherSubmissionList.jsx`**: lista de entregas para el profesor con estadísticas (entregas/calificadas/sin calificar), buscador por nombre, filtro Todas/Sin calificar/Calificadas, y avatares con color derivado del nombre (`avatarColor` con hash). Cada tarjeta abre el modal de calificación.
 
 **Modales de formulario:**
 - **`CourseFormModal.jsx`**: crear/editar clase (nombre, sección/periodo, descripción). Botón deshabilitado si faltan nombre/periodo.
@@ -224,9 +231,8 @@
 - **`TaskFormModal.jsx`**: crear/editar tarea (título, instrucciones, fecha de entrega, puntaje máximo 20, archivo de apoyo opcional).
 
 **Modales de confirmación:**
-- **`DeleteCourseModal.jsx`**: confirma eliminación de una clase (avisa que borra material y tareas).
-- **`DeleteModal.jsx`**: confirmación genérica de eliminación (material/tarea).
-- **`DeleteEntregaModal.jsx`**: confirma retirar la propia entrega.
+- **`DeleteModal.jsx`**: confirmación única (título, texto y botón configurables) para eliminar clase, material o tarea y para retirar la propia entrega.
+- **`JoinCourseModal.jsx` / `JoinCodeForm.jsx`**: unirse con el código de 8 caracteres (distingue mayúsculas; el mismo formulario sirve al estado vacío del estudiante).
 - **`GradeModal.jsx`**: calificar a un estudiante. Muestra datos de la entrega (comentario y archivos del alumno), input de nota (0–`maxScore`) con validación en vivo, y comentario opcional del profesor.
 - **`EditEntregaModal.jsx`**: editar la entrega propia (cambiar comentario y agregar archivos).
 
@@ -234,7 +240,7 @@
 
 - Todas las llamadas pasan por `src/common/services/api.js` usando `fetch`.
 - **Autenticación**: JWT. `Authorization: Bearer <access>` en cada petición (excepto login/register). El access token se guarda en `localStorage`.
-- **Carga de datos en los componentes**: `useEffect` + `Promise.all` para peticiones paralelas, con flag `active` para evitar actualizar estado desmontado. Los errores se reportan con toasts.
+- **Carga de datos en los componentes**: `useEffect` + `Promise.all` para peticiones paralelas, con flag `active` para evitar actualizar estado desmontado. Los errores de lectura se muestran en la propia pantalla con «Reintentar»; los de escritura, dentro del modal o formulario.
 - **Entregas**: se mantienen en un diccionario `entregasByTarea` porque hay una entrega por (tarea, estudiante). La entrega propia del estudiante es la primera del array.
 - **Archivos**: se suben con `FormData` (campos `archivos` para material, `file_upload` para tareas y entregas). Las URLs de archivos se resuelven con `fileUrl()`.
 

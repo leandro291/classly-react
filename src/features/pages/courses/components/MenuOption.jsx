@@ -6,9 +6,9 @@ export default function MenuOption({ icon, label, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-[#202124] hover:bg-[#f1f3f4] transition-colors"
+      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-canvas transition-colors"
     >
-      <svg width="20" height="20" fill="#5f6368" viewBox="0 0 24 24">{icons[icon]}</svg>
+      <svg width="20" height="20" fill="var(--color-ink-muted)" viewBox="0 0 24 24">{icons[icon]}</svg>
       {label}
     </button>
   )
