@@ -79,10 +79,10 @@ export default function TaskPage({ tarea, course, color, isTeacher, entrega, stu
                       <span className={`text-sm font-medium ${status.text}`}>Entregada · {status.label.toLowerCase()}</span>
                     </div>
                     <div className="flex gap-1">
-                      <button type="button" title="Editar entrega" aria-label="Editar entrega" onClick={onEditEntrega} className="p-1.5 rounded-full hover:bg-brand-tint text-ink-muted hover:text-brand transition-colors pointer-coarse:p-3.5">
+                      <button type="button" title="Editar entrega" aria-label="Editar entrega" onClick={onEditEntrega} className="press p-1.5 rounded-full hover:bg-brand-tint text-ink-muted hover:text-brand pointer-coarse:p-3.5">
                         <Icon name="edit" size={15} />
                       </button>
-                      <button type="button" title="Retirar entrega" aria-label="Retirar entrega" onClick={onDeleteEntrega} className="p-1.5 rounded-full hover:bg-danger-tint text-ink-muted hover:text-danger-text transition-colors pointer-coarse:p-3.5">
+                      <button type="button" title="Retirar entrega" aria-label="Retirar entrega" onClick={onDeleteEntrega} className="press p-1.5 rounded-full hover:bg-danger-tint text-ink-muted hover:text-danger-text pointer-coarse:p-3.5">
                         <Icon name="trash" size={15} />
                       </button>
                     </div>
@@ -121,7 +121,7 @@ export default function TaskPage({ tarea, course, color, isTeacher, entrega, stu
               ) : (
                 <form onSubmit={e => { e.preventDefault(); run(async () => { await onSubmit(student_comment, files); setFiles([]) }) }}>
                   <fieldset disabled={pending} className="flex flex-col gap-3 min-w-0">
-                    <textarea value={student_comment} onChange={e => setComment(e.target.value)} placeholder="Comentario para el profesor" aria-label="Comentario para el profesor" rows={3} className="w-full border border-field-border rounded-xl px-3 py-2.5 text-sm text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all resize-none" />
+                    <textarea value={student_comment} onChange={e => setComment(e.target.value)} placeholder="Comentario para el profesor" aria-label="Comentario para el profesor" rows={3} className="w-full border border-field-border rounded-xl px-3 py-2.5 text-sm text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-[border-color,box-shadow] resize-none" />
                     <input ref={fileRef} type="file" multiple className="hidden" onChange={e => { if (e.target.files) setFiles(prev => [...prev, ...Array.from(e.target.files)]) }} />
                     <button type="button" onClick={() => fileRef.current?.click()} className="flex items-center justify-center gap-2 text-sm text-ink-muted border border-field-line rounded-xl px-3 py-2.5 hover:bg-canvas transition-colors">
                       <svg width="16" height="16" fill="var(--color-ink-muted)" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></svg>

@@ -107,7 +107,7 @@ export default function Dashboard() {
           <button
             type="button"
             onClick={() => setShowMenu(v => !v)}
-            className="p-2 pointer-coarse:p-3 rounded-full hover:bg-canvas transition-colors"
+            className="press p-2 pointer-coarse:p-3 rounded-full hover:bg-canvas"
             title="Agregar"
             aria-label="Agregar"
             aria-haspopup="menu"
@@ -116,7 +116,7 @@ export default function Dashboard() {
             <Icon name="add" size={22} className="text-ink-muted" />
           </button>
           {showMenu && (
-            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-52 py-1 z-50">
+            <div className="pop-in origin-top-right absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-52 py-1 z-50">
               {isTeacher ? (
                 <MenuOption
                   icon="school"
@@ -141,12 +141,12 @@ export default function Dashboard() {
             aria-label="Cuenta"
             aria-haspopup="menu"
             aria-expanded={showUserMenu}
-            className="w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-brand text-white text-sm font-medium flex items-center justify-center hover:ring-2 hover:ring-brand/30 transition-all"
+            className="press w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-brand text-white text-sm font-medium flex items-center justify-center hover:ring-2 hover:ring-brand/30"
           >
             {initials}
           </button>
           {showUserMenu && (
-            <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-56 sm:w-64 py-2 z-50">
+            <div className="pop-in origin-top-right absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-hairline w-56 sm:w-64 py-2 z-50">
               <div className="px-4 py-3 border-b border-hairline">
                 <p className="text-sm font-medium text-ink">{fullName}</p>
                 <p className="text-xs text-ink-muted">{user.email}</p>

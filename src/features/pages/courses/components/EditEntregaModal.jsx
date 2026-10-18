@@ -16,7 +16,7 @@ export default function EditEntregaModal({ entrega, onSave, onClose }) {
         <div>
           <p className="text-xs font-medium text-ink-muted mb-2">Archivos</p>
           <input ref={fileRef} type="file" multiple className="hidden" onChange={e => { if (e.target.files) setFiles(prev => [...prev, ...Array.from(e.target.files)]) }} />
-          <button type="button" onClick={() => fileRef.current?.click()} className="flex items-center gap-2 text-sm text-ink-muted border border-dashed border-field-line rounded-xl w-full justify-center py-3 hover:bg-canvas hover:border-brand transition-all">
+          <button type="button" onClick={() => fileRef.current?.click()} className="flex items-center gap-2 text-sm text-ink-muted border border-dashed border-field-line rounded-xl w-full justify-center py-3 hover:bg-canvas hover:border-brand transition-colors">
             <Icon name="upload" className="text-ink-muted" />
             Agregar archivos
           </button>

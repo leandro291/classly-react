@@ -23,7 +23,7 @@ export default function JoinCodeForm({ onJoin, onCancel }) {
         aria-label="Código de clase"
         aria-describedby={hintId}
         autoCapitalize="off" autoCorrect="off" autoComplete="off" spellCheck={false}
-        className="w-full border border-field-border rounded-lg px-4 py-3 text-sm text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all tracking-[0.25em] text-center font-medium font-mono bg-white"
+        className="w-full border border-field-border rounded-lg px-4 py-3 text-sm text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-[border-color,box-shadow] tracking-[0.25em] text-center font-medium font-mono bg-white"
       />
       <p id={hintId} className="text-xs text-ink-muted">
         {code.length}/{CODE_LENGTH} · Son letras y números; distingue mayúsculas de minúsculas.

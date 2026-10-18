@@ -67,7 +67,7 @@ export default function TeacherSubmissionList({ entregas, maxScore, onGrade }) {
       <div className="flex gap-1 bg-canvas rounded-lg p-0.5">
         {[['all', 'Todas'], ['pending', 'Sin calificar'], ['graded', 'Calificadas']].map(([key, label]) => (
           <button key={key} type="button" aria-pressed={filter === key} onClick={() => setFilter(key)}
-            className={`flex-1 text-xs font-medium py-1 rounded-md transition-all ${filter === key ? 'bg-white text-brand shadow-sm' : 'text-ink-muted'}`}>
+            className={`flex-1 text-xs font-medium py-1 rounded-md transition-colors ${filter === key ? 'bg-white text-brand shadow-sm' : 'text-ink-muted'}`}>
             {label}
           </button>
         ))}
@@ -77,7 +77,7 @@ export default function TeacherSubmissionList({ entregas, maxScore, onGrade }) {
         {filtered.length === 0 ? (
           <p className="text-xs text-ink-muted text-center py-4">{search ? `Ningún alumno coincide con "${search}".` : 'Ninguna entrega en este filtro.'}</p>
         ) : filtered.map(e => (
-          <div key={e.id} className="border border-hairline rounded-xl p-3 hover:border-brand hover:bg-surface-subtle transition-all cursor-pointer" onClick={() => onGrade(e)}>
+          <div key={e.id} className="border border-hairline rounded-xl p-3 hover:border-brand hover:bg-surface-subtle transition-colors cursor-pointer" onClick={() => onGrade(e)}>
             <div className="flex items-center gap-2.5 mb-1.5">
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0" style={{ backgroundColor: avatarColor(studentDisplay(e)?.toString() ?? '') }}>
                 {studentDisplay(e)?.toString().split(' ').map(n => n[0]).join('')}

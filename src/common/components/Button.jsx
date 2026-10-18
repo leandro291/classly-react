@@ -9,7 +9,7 @@ export default function Button({ variant = 'primary', size = 'md', type = 'butto
   return (
     <button
       type={type}
-      className={`text-sm font-medium rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${VARIANT[variant]} ${SIZE[size]} ${className}`}
+      className={`press text-sm font-medium rounded-lg disabled:opacity-40 disabled:cursor-not-allowed ${VARIANT[variant]} ${SIZE[size]} ${className}`}
       {...props}
     />
   )

@@ -32,7 +32,7 @@ export default function TaskFormModal({ item, onSave, onClose }) {
           {file ? (
             <SelectedFile name={file.name} onRemove={() => setFile(null)} className="mt-1.5" />
           ) : (
-            <button type="button" onClick={() => fileRef.current?.click()} className="flex items-center gap-2 text-sm text-ink-muted border border-dashed border-field-line rounded-xl w-full justify-center py-3 hover:bg-canvas hover:border-brand transition-all mt-1">
+            <button type="button" onClick={() => fileRef.current?.click()} className="flex items-center gap-2 text-sm text-ink-muted border border-dashed border-field-line rounded-xl w-full justify-center py-3 hover:bg-canvas hover:border-brand transition-colors mt-1">
               <Icon name="upload" className="text-ink-muted" />
               {item?.file ? 'Reemplazar archivo' : 'Subir archivo'}
             </button>

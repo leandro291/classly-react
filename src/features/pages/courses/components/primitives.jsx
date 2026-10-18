@@ -68,7 +68,7 @@ export function FileChip({ name, href, accent = 'var(--color-danger)', bg = 'var
       {href && <Icon name="download" size={size} className="text-ink-muted opacity-0 group-hover:opacity-100 transition-opacity" />}
     </>
   )
-  const cls = `flex items-center gap-3 border border-hairline rounded-xl hover:shadow-sm cursor-pointer transition-all group ${small ? 'px-3 py-2' : 'px-5 py-4'}`
+  const cls = `flex items-center gap-3 border border-hairline rounded-xl hover:shadow-sm cursor-pointer transition-shadow group ${small ? 'px-3 py-2' : 'px-5 py-4'}`
   if (href) return <a href={href} target="_blank" rel="noopener noreferrer" className={`${cls} no-underline`}>{content}</a>
   return <div className={cls}>{content}</div>
 }
@@ -88,7 +88,7 @@ export function SelectedFile({ name, onRemove, className = '' }) {
 export function IconBtn({ title, icon, onClick, danger }) {
   return (
     <button type="button" title={title} aria-label={title} onClick={e => { e.stopPropagation(); onClick() }}
-      className={`p-1.5 pointer-coarse:p-3.5 rounded-full transition-colors ${danger ? 'hover:bg-danger-tint text-ink-muted hover:text-danger-text' : 'hover:bg-brand-tint text-ink-muted hover:text-brand'}`}>
+      className={`press p-1.5 pointer-coarse:p-3.5 rounded-full ${danger ? 'hover:bg-danger-tint text-ink-muted hover:text-danger-text' : 'hover:bg-brand-tint text-ink-muted hover:text-brand'}`}>
       <Icon name={icon} />
     </button>
   )

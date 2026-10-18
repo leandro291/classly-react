@@ -11,7 +11,7 @@ export default function DeleteModal({ title = 'Confirmar eliminación', confirmL
         <FormError error={error} />
         <div className="flex justify-end gap-2">
           <Button variant="text" size="sm" type="button" onClick={onClose}>Cancelar</Button>
-          <button type="button" disabled={pending} onClick={() => run(onConfirm)} className="px-5 py-2 text-sm bg-danger hover:bg-danger-deep disabled:opacity-40 text-white rounded-lg transition-colors font-medium">{pending ? 'Procesando…' : confirmLabel}</button>
+          <button type="button" disabled={pending} onClick={() => run(onConfirm)} className="press px-5 py-2 text-sm bg-danger hover:bg-danger-deep disabled:opacity-40 text-white rounded-lg font-medium">{pending ? 'Procesando…' : confirmLabel}</button>
         </div>
       </div>
     </ModalWrapper>

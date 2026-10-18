@@ -40,6 +40,11 @@
   --color-course-red: #cc2d23;
   --color-course-amber: #965f00;
   --color-course-pink: #cb187e;
+
+  /* Movimiento: ease-out fuerte (entrada rápida, asentamiento suave); 150ms por defecto */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-duration: 150ms;
 }
 
 * {
@@ -66,7 +71,45 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .page-enter {
-  animation: fadeSlideIn 0.2s ease-out both;
+  animation: fadeSlideIn 0.2s var(--ease-out) both;
+}
+
+/* Subrayado de tiza: se dibuja una vez al montar */
+@keyframes chalk-draw { from { stroke-dashoffset: 1 } to { stroke-dashoffset: 0 } }
+.chalk-draw { stroke-dasharray: 1; animation: chalk-draw 0.45s var(--ease-out) 0.08s both; }
+
+/* Pulsar: respuesta inmediata en todo lo que se aprieta (solo si está habilitado) */
+@utility press {
+  transition-property: transform, background-color, color, border-color, box-shadow, opacity;
+  &:enabled:active { transform: scale(0.97); }
+}
+
+/* Menús y popovers: entran desde su origen (origin-*) con opacidad y escala ≥ 0.95, nunca desde 0 */
+.pop-in {
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
+  @starting-style { opacity: 0; transform: scale(0.95); }
+}
+
+/* Modal (<dialog>): fundido + escala desde el centro; el cierre es inmediato */
+dialog[open] {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+dialog[open]::backdrop { transition: background-color 200ms var(--ease-out); }
+@starting-style {
+  dialog[open] { opacity: 0; transform: scale(0.96); }
+  dialog[open]::backdrop { background-color: transparent; }
+}
+
+/* Movimiento reducido: se conservan opacidad y color, se quita todo desplazamiento y escala */
+@media (prefers-reduced-motion: reduce) {
+  .chalk-draw, .page-enter { animation: none; }
+  .pop-in, dialog[open] { transition: opacity 150ms linear; }
+  @starting-style {
+    .pop-in, dialog[open] { transform: none; }
+  }
+  .press:enabled:active { transform: none; }
 }
 
 /* iOS Safari hace zoom al enfocar campos con menos de 16px */

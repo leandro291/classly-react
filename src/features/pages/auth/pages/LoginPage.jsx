@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { loginUser, registerUser } from '../services/authService'
 import Logo from '../../../../common/components/Logo'
+import Board from '../../../../common/components/Board'
+import { ChalkUnderline } from '../../../../common/components/Chalk'
 import Button from '../../../../common/components/Button'
 
 export default function LoginPage() {
@@ -46,18 +48,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-dvh bg-canvas flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-2">
-            <Logo size={40} />
-            <span className="font-display text-3xl font-medium text-ink">
-              Classly
-            </span>
-          </div>
-          <p className="text-ink-muted text-sm">Tu aula virtual</p>
+    <div className="min-h-dvh bg-canvas lg:grid lg:grid-cols-[1fr_minmax(0,34rem)]">
+      <Board chalk className="min-h-48 lg:min-h-dvh flex flex-col justify-end lg:justify-center px-6 pb-10 pt-8 lg:p-16">
+        <div className="flex items-center gap-3">
+          <Logo size={56} tone="light" />
+          <span className="font-display text-5xl lg:text-8xl font-medium">Classly</span>
         </div>
+        <ChalkUnderline className="mt-2 w-48 lg:w-[26rem]" />
+        <p className="font-display text-xl lg:text-4xl mt-4 text-balance">Tu aula virtual</p>
+        <p className="hidden lg:block text-base mt-6 max-w-sm text-balance">Material, tareas, entregas y notas de cada clase, en un solo lugar.</p>
+      </Board>
 
+      <div className="relative -mt-6 lg:mt-0 px-4 pb-8 lg:p-10 flex items-start lg:items-center justify-center">
+      <div className="w-full max-w-sm">
         <div className="bg-white rounded-2xl shadow-md overflow-hidden">
           <div className="px-5 sm:px-8 pt-6 sm:pt-8 pb-5 sm:pb-6">
             <h2 className="font-display text-xl font-normal text-ink mb-1">
@@ -91,7 +94,7 @@ export default function LoginPage() {
                         key={r}
                         type="button"
                         onClick={() => update('rol', r)}
-                        className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-all ${
+                        className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${
                           form.rol === r
                             ? 'border-brand bg-brand-tint text-brand-dark'
                             : 'border-field-line text-ink-muted hover:border-brand'
@@ -120,20 +123,21 @@ export default function LoginPage() {
             {mode === 'login' ? (
               <p className="text-sm text-ink-muted">
                 ¿No tienes cuenta?{' '}
-                <button onClick={() => { setMode('register'); setError('') }} className="text-brand font-medium hover:underline">
+                <button onClick={() => { setMode('register'); setError('') }} className="text-brand-dark font-medium hover:underline">
                   Regístrate
                 </button>
               </p>
             ) : (
               <p className="text-sm text-ink-muted">
                 ¿Ya tienes cuenta?{' '}
-                <button onClick={() => { setMode('login'); setError('') }} className="text-brand font-medium hover:underline">
+                <button onClick={() => { setMode('login'); setError('') }} className="text-brand-dark font-medium hover:underline">
                   Inicia sesión
                 </button>
               </p>
             )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
