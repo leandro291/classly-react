@@ -8,6 +8,13 @@ import Board from '../../../../common/components/Board'
 import { ChalkUnderline } from '../../../../common/components/Chalk'
 import Button from '../../../../common/components/Button'
 
+// Cuentas de demostración creadas por `seed_demo` en el backend
+const DEMO_PASSWORD = '123'
+const DEMOS = [
+  { email: 'profesor@example.com', role: 'Profesor', label: 'Entrar como profesor' },
+  { email: 'alumno@example.com', role: 'Alumno', label: 'Entrar como alumno' },
+]
+
 export default function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
@@ -27,12 +34,14 @@ export default function LoginPage() {
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e, demo) {
     e.preventDefault()
     setError('')
     setLoading(true)
     try {
-      if (mode === 'login') {
+      if (demo) {
+        login(await loginUser(demo, DEMO_PASSWORD))
+      } else if (mode === 'login') {
         const userInfo = await loginUser(form.email, form.password)
         login(userInfo)
       } else {
@@ -117,6 +126,31 @@ export default function LoginPage() {
                 {loading ? 'Cargando…' : mode === 'login' ? 'Siguiente' : 'Crear cuenta'}
               </Button>
             </form>
+
+            {mode === 'login' && (
+              <div className="mt-5 pt-5 border-t border-hairline">
+                <p className="text-xs text-ink-muted mb-3">¿Solo quieres ver cómo funciona? Prueba la demo:</p>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {DEMOS.map(d => (
+                    <Button key={d.email} variant="text" disabled={loading}
+                      onClick={e => handleSubmit(e, d.email)}
+                      className="flex-1 border border-field-line">
+                      {d.label}
+                    </Button>
+                  ))}
+                </div>
+                <dl className="mt-3 text-xs text-ink-muted grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                  {DEMOS.map(d => (
+                    <div key={d.email} className="contents">
+                      <dt>{d.role}</dt>
+                      <dd className="font-mono text-ink break-all">{d.email}</dd>
+                    </div>
+                  ))}
+                  <dt>Contraseña</dt>
+                  <dd className="font-mono text-ink">{DEMO_PASSWORD}</dd>
+                </dl>
+              </div>
+            )}
           </div>
 
           <div className="bg-surface-subtle px-5 sm:px-8 py-4 border-t border-hairline text-center">
