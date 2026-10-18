@@ -125,13 +125,13 @@ components:
 
 **Creative North Star: "El Pizarrón Amable"**
 
-Classly es un aula virtual calma y familiar, heredera declarada de Google Classroom. Las superficies son blancas sobre un lienzo gris claro, el texto es tinta casi negra, y un único azul de acción (Azul Google) marca todo lo que se puede pulsar o está seleccionado. El color vistoso no decora la interfaz: vive en la cabecera de cada clase, que es lo que le da identidad al curso y deja el resto neutro.
+Classly es un aula virtual calma y familiar, heredera declarada de Google Classroom. Las superficies son blancas sobre un lienzo gris claro, el texto es tinta casi negra, y un único azul de acción (Azul Google) marca todo lo que se puede pulsar o está seleccionado. El color vistoso no decora la interfaz: vive en el pizarrón (un bloque de color con repisa de tiza), que es lo que le da identidad a cada clase, al login y a los estados vacíos, y deja el resto neutro.
 
 La densidad es media y funcional: tarjetas con borde fino, filas de lista con icono circular, pestañas subrayadas. La interfaz está pensada para que un estudiante encuentre una tarea y su fecha, o un profesor califique una entrega, sin que el diseño pida atención. Se confirma como rechazo visual: nada de gradientes, glassmorphism ni tableros oscuros tipo SaaS.
 
 **Key Characteristics:**
 - Un solo acento de acción (Azul Google) sobre superficies blancas y lienzo gris.
-- Color de curso como única fuente de color expresivo, aplicado a cabeceras.
+- El pizarrón (un bloque de color con repisa de tiza) como única superficie expresiva: cabecera de clase, tarjeta del panel, código de clase, estados vacíos y portada del login.
 - Bordes finos como separador en reposo; la sombra responde a hover, menús y modales.
 - Esquinas redondeadas (8px controles, 12px tarjetas, píldoras para estados).
 - Etiquetas flotantes en los campos, texto de apoyo en gris medio.
@@ -167,7 +167,7 @@ Paleta de dos neutros grises, un azul de acción y cuatro semánticos pastel, m�
 ### Named Rules
 **The One Voice Rule.** El Azul Google es el único acento de acción en pantalla; el resto del color es semántico (éxito, alerta, peligro) o es color de curso. Un segundo acento de acción no existe.
 
-**The Course Color Rule.** El color de curso solo aparece en la cabecera de la clase y en la franja de su panel de código. Nunca en botones, enlaces ni texto del cuerpo.
+**The Pizarrón Rule.** El color a sangre completa solo aparece en un pizarrón: un bloque de color con repisa oscura abajo (6px, negro al 20 %), título en Google Sans blanco y, en los grandes, un subrayado y marcas de tiza. En una clase el pizarrón lleva el color de la clase; fuera de una clase (login, estados vacíos del panel) lleva Verde Curso, el verde de pizarra. Nunca en botones, enlaces ni texto del cuerpo, y la acción sigue siendo solo azul.
 
 ## Typography
 
@@ -212,7 +212,7 @@ Lenguaje de esquinas redondeadas con tres escalones: 8px para controles (botones
 
 ## Components
 
-Los componentes compartidos viven en `src/common/components/`: `Button` (variantes `primary` y `text`, tamaños `sm`, `md`, `lg`), `FormField` (etiqueta flotante, input o textarea), `Icon` (los iconos que se repiten, por nombre; el color sale de `text-*`), `Logo` y `Toast`. En `courses/components/primitives.jsx` están los que dependen del dominio: `ModalWrapper`, `ModalActions`, `FileChip`, `SelectedFile`, `IconBtn`, `DueChip`, `FormError` y `LoadError`.
+Los componentes compartidos viven en `src/common/components/`: `Button` (variantes `primary` y `text`, tamaños `sm`, `md`, `lg`), `FormField` (etiqueta flotante, input o textarea), `Icon` (los iconos que se repiten, por nombre; el color sale de `text-*`), `Logo`, `Board` (el pizarrón), `Chalk` (trazos de tiza) y `Toast`. En `courses/components/primitives.jsx` están los que dependen del dominio: `ModalWrapper`, `ModalActions`, `FileChip`, `SelectedFile`, `IconBtn`, `DueChip`, `FormError` y `LoadError`.
 
 ### Buttons
 - **Shape:** esquina de 8px.
@@ -241,11 +241,23 @@ Los componentes compartidos viven en `src/common/components/`: `Button` (variant
 - **Cabecera superior:** blanca, 64px, pegajosa, con logo azul de 32px y nombre "Classly" (oculto en móvil), botón "+" y avatar circular con iniciales sobre Azul Google.
 - **Pestañas de clase:** barra blanca con borde inferior Hilo; pestaña activa con subrayado de 2px Azul Google y texto azul, inactiva en Tinta Apagada con hover de fondo Lienzo. Desplazable en horizontal en móvil sin barra.
 
-### Signature Component: Cabecera de clase
-Bloque a sangre completa del color de curso (144px en móvil, 208px desde sm), con título en Google Sans blanco, y profesor y período en blanco sólido (el blanco translúcido no pasaba el contraste). En la tarjeta del panel es una franja de 96px con el mismo tratamiento. Es el único lugar donde la interfaz es vistosa.
+### Signature Component: Pizarrón
+Bloque de color con **repisa** (franja de 6px en negro al 20 %) pegada abajo y, en los grandes, un trozo de tiza apoyado en ella. El texto va en blanco sólido. Los trazos de tiza (subrayado que se dibuja una vez, el signo más, las ocho casillas del código) son SVG blancos con borde irregular (`feDisplacementMap`), decorativos y `aria-hidden`; el significado lo lleva el texto. Se usa en: **cabecera de clase** (mínimo 176px en móvil, 240px desde sm; título de 30px a 48px con subrayado), **tarjeta del panel** (96px, solo repisa), **código de clase** (panel con el código en monoespaciada 30px), **estados vacíos** (panel con marca de tiza y título de 30px) y **portada del login** (mitad izquierda en escritorio, banda superior en móvil, wordmark de hasta 96px). Es el único lugar donde la interfaz es vistosa. Componentes: `Board` y `Chalk` en `src/common/components/`. El subrayado respeta `prefers-reduced-motion`.
 
 ### Modales
 Velo negro al 40%, panel blanco de 16px de esquina, ancho máximo de 448px (max-w-md), padding 24px, título en Google Sans 20px, acciones alineadas a la derecha (texto + primario).
+
+## Motion
+
+El movimiento confirma y orienta; nunca decora lo que se ve decenas de veces al día.
+
+- **Curva única:** `--ease-out: cubic-bezier(0.23, 1, 0.32, 1)` y duración por defecto de 150ms, ambas en `@theme`; todo `transition-*` las hereda. Nada usa `ease-in`.
+- **Pulsar:** `press` (utilidad en `index.css`) hace `scale(0.97)` en `:active`, solo si el control está habilitado. Lo llevan `Button`, `IconBtn`, los iconos de la barra y las tarjetas, y el botón de eliminar.
+- **Entradas:** el modal (`<dialog>`) entra con opacidad y escala 0.96→1 en 200ms desde el centro; los menús (`.pop-in`) entran desde su esquina de origen (`origin-top-right`) en 150ms, nunca desde escala 0. Las salidas son inmediatas.
+- **Etiqueta flotante:** sube con `translate` + `scale` (14px→12px efectivos), solo propiedades de GPU.
+- **Sin `transition-all`:** cada transición nombra sus propiedades.
+- **Subrayado de tiza:** 450ms, una sola vez al montar.
+- **Movimiento reducido:** se conservan opacidad y color; se quitan escala y desplazamiento.
 
 ## Do's and Don'ts
 

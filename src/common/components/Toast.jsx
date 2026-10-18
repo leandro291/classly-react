@@ -47,7 +47,7 @@ function ToastItem({ toast }) {
   return (
     <div
       role={toast.type === 'error' ? 'alert' : 'status'}
-      className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white text-sm font-medium transition-all duration-300"
+      className="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg text-white text-sm font-medium transition-[opacity,transform] duration-200"
       style={{
         backgroundColor: bg,
         opacity: visible ? 1 : 0,

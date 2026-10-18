@@ -22,6 +22,8 @@ import TaskFormModal from '../components/TaskFormModal'
 import DeleteModal from '../components/DeleteModal'
 import EditEntregaModal from '../components/EditEntregaModal'
 import Button from '../../../../common/components/Button'
+import Board from '../../../../common/components/Board'
+import { ChalkUnderline } from '../../../../common/components/Chalk'
 
 function normalizeEntrega(e) {
   const st = e.student
@@ -295,11 +297,12 @@ function CourseView({ course }) {
     <div className="min-h-dvh bg-canvas">
       <NavBar onBack={() => navigate('/')} />
 
-      <div className="relative h-36 sm:h-52 px-4 sm:px-8 flex flex-col justify-end pb-4 sm:pb-6" style={{ backgroundColor: color }}>
-        <h1 className="font-display text-white text-xl sm:text-3xl font-medium mb-1 leading-tight text-balance [overflow-wrap:anywhere]">{course.name}</h1>
-        <p className="text-white text-xs sm:text-sm [overflow-wrap:anywhere]">{teacherName} · {course.period}</p>
-        {course.description && <p className="text-white text-xs sm:text-sm mt-0.5 line-clamp-1 [overflow-wrap:anywhere]">{course.description}</p>}
-      </div>
+      <Board chalk color={color} className="min-h-44 sm:min-h-60 px-4 sm:px-8 flex flex-col justify-end pb-7 sm:pb-10 pt-8">
+        <h1 className="font-display text-3xl sm:text-5xl font-medium leading-tight text-balance [overflow-wrap:anywhere]">{course.name}</h1>
+        <ChalkUnderline className="w-40 sm:w-64 mt-1 mb-2" />
+        <p className="text-sm sm:text-base [overflow-wrap:anywhere]">{teacherName} · {course.period}</p>
+        {course.description && <p className="text-sm mt-0.5 line-clamp-1 [overflow-wrap:anywhere]">{course.description}</p>}
+      </Board>
 
       <div className="bg-white border-b border-hairline sticky top-16 z-20">
         <div className="max-w-4xl mx-auto flex overflow-x-auto scrollbar-none">

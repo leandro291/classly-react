@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import useClickOutside from '../../../../common/hooks/useClickOutside'
 import Icon from '../../../../common/components/Icon'
+import Board from '../../../../common/components/Board'
 
 export default function CourseCard({ course, color, isTeacher, onClick, onEdit, onDelete }) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -11,13 +12,12 @@ export default function CourseCard({ course, color, isTeacher, onClick, onEdit, 
       onClick={onClick}
       className="bg-white rounded-xl shadow-sm border border-hairline overflow-hidden cursor-pointer transition-shadow hover:shadow-md"
     >
-      <div className="relative h-24 px-4 pt-4 pb-2" style={{ backgroundColor: color }}>
+      <Board color={color} className="h-24 px-4 pt-4 pb-3">
         <div className="pr-8 pointer-coarse:pr-10">
-          <h3
-      className="font-display text-white text-lg font-medium leading-tight">
-            <button type="button" className="block text-left cursor-pointer line-clamp-2 [overflow-wrap:anywhere]">{course.name}</button>
+          <h3 className="font-display text-lg font-medium leading-tight">
+            <button type="button" className="text-left cursor-pointer line-clamp-2 [overflow-wrap:anywhere]">{course.name}</button>
           </h3>
-          <p className="text-white text-xs mt-0.5 truncate">{course.period}</p>
+          <p className="text-xs mt-0.5 truncate">{course.period}</p>
         </div>
 
         {isTeacher && (
@@ -28,14 +28,14 @@ export default function CourseCard({ course, color, isTeacher, onClick, onEdit, 
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               onClick={e => { e.stopPropagation(); setMenuOpen(v => !v) }}
-              className="p-1.5 pointer-coarse:p-3 rounded-full hover:bg-white/20 transition-colors"
+              className="press p-1.5 pointer-coarse:p-3 rounded-full hover:bg-white/20"
             >
               <svg width="18" height="18" fill="white" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
               </svg>
             </button>
             {menuOpen && (
-              <div className="absolute right-0 top-8 bg-white rounded-lg shadow-xl border border-hairline w-40 py-1 z-50">
+              <div className="pop-in origin-top-right absolute right-0 top-8 bg-white rounded-lg shadow-xl border border-hairline w-40 py-1 z-50">
                 <button
                   onClick={e => { e.stopPropagation(); setMenuOpen(false); onEdit?.() }}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-ink hover:bg-canvas transition-colors"
@@ -60,7 +60,7 @@ export default function CourseCard({ course, color, isTeacher, onClick, onEdit, 
             Inactivo
           </span>
         )}
-      </div>
+      </Board>
 
       <div className="px-4 py-3">
         <p className="text-xs text-ink-muted truncate">

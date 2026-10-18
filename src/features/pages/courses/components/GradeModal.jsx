@@ -52,7 +52,7 @@ export default function GradeModal({ entrega, maxScore, onSave, onClose }) {
               type="number" min={0} max={maxScore} step={1} value={grade}
               onChange={e => setGrade(e.target.value)}
               placeholder="0"
-              className="w-28 border border-field-border rounded-lg px-3 py-2.5 text-2xl font-bold text-ink text-center tabular-nums outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all"
+              className="w-28 border border-field-border rounded-lg px-3 py-2.5 text-2xl font-bold text-ink text-center tabular-nums outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-[border-color,box-shadow]"
             />
             <span className="text-xl text-ink-muted tabular-nums">/ {maxScore}</span>
             {grade !== '' && !valid && (
