@@ -1,11 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&display=swap');
 @import 'tailwindcss';
 
-@theme {
+@theme static {
   --font-sans: 'Roboto', sans-serif;
   --font-display: 'Google Sans', 'Roboto', sans-serif;
+  --font-mono: ui-monospace, 'Roboto Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Acción: un solo azul (DESIGN.md · One Voice) */
   --color-brand: #1a73e8;
   --color-brand-dark: #1557b0;
+  --color-brand-tint: #e8f0fe;
+
+  /* Neutros */
+  --color-ink: #202124;
+  --color-ink-muted: #5f6368;
+  --color-field-border: #80868b;
+  --color-field-line: #dadce0;
+  --color-hairline: #e8eaed;
+  --color-canvas: #f1f3f4;
+  --color-surface-subtle: #f8f9fa;
+  --color-scrollbar: #bdc1c6;
+
+  /* Estado: texto *-text (≥4.5:1 sobre su tinte); success solo para iconos */
+  --color-success: #1e8e3e;
+  --color-success-text: #137333;
+  --color-success-tint: #e6f4ea;
+  --color-danger: #d93025;
+  --color-danger-deep: #b31412;
+  --color-danger-text: #c5221f;
+  --color-danger-tint: #fce8e6;
+  --color-warning-text: #9a5400;
+  --color-warning-tint: #fef7e0;
+
+  /* Colores de clase: ≥5:1 con texto blanco */
+  --color-course-green: #1a7d37;
+  --color-course-blue: #1568d6;
+  --color-course-orange: #ab5307;
+  --color-course-purple: #7627bb;
+  --color-course-teal: #007a6d;
+  --color-course-red: #cc2d23;
+  --color-course-amber: #965f00;
+  --color-course-pink: #cb187e;
 }
 
 * {
@@ -14,15 +48,15 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f1f3f4;
-  color: #202124;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
   margin: 0;
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #bdc1c6; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #80868b; }
+::-webkit-scrollbar-thumb { background: var(--color-scrollbar); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-field-border); }
 
 .scrollbar-none { scrollbar-width: none; }
 .scrollbar-none::-webkit-scrollbar { display: none; }
@@ -34,3 +68,10 @@ body {
 .page-enter {
   animation: fadeSlideIn 0.2s ease-out both;
 }
+
+/* iOS Safari hace zoom al enfocar campos con menos de 16px */
+@media (pointer: coarse) {
+  input, textarea, select { font-size: 16px; }
+}
+
+::placeholder { color: var(--color-ink-muted); opacity: 1; }

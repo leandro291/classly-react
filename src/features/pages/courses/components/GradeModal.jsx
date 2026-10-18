@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import formatDate from '../../../../common/utils/formatDate'
 import { fileUrl } from '../../../../common/services/api'
-import { ModalWrapper, FileChip } from './primitives'
+import { ENTREGA_STATUS } from '../utils/constants'
+import useAction from '../../../../common/hooks/useAction'
+import { ModalWrapper, ModalActions, FormField, FileChip } from './primitives'
 
 export default function GradeModal({ entrega, maxScore, onSave, onClose }) {
+  const { run, pending, error } = useAction()
   const [grade, setGrade] = useState(entrega.score !== null && entrega.score !== undefined ? String(entrega.score) : '')
   const [comment, setComment] = useState(entrega.teacher_comment ?? '')
 
@@ -14,26 +17,26 @@ export default function GradeModal({ entrega, maxScore, onSave, onClose }) {
   return (
     <ModalWrapper title={`Calificar a ${studentName}`} onClose={onClose}>
       <div className="mb-5">
-        <div className="flex items-center gap-3 bg-[#f8f9fa] rounded-xl p-3 mb-4">
-          <div className="w-9 h-9 rounded-full bg-[#e8f0fe] flex items-center justify-center text-xs font-medium text-[#1a73e8] shrink-0">
+        <div className="flex items-center gap-3 bg-surface-subtle rounded-xl p-3 mb-4">
+          <div className="w-9 h-9 rounded-full bg-brand-tint flex items-center justify-center text-xs font-medium text-brand-dark shrink-0">
             {studentName?.toString().split(' ').map(n => n[0]).join('')}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-[#202124]">{studentName}</p>
-            <p className="text-xs text-[#5f6368]">Entregado {formatDate(entrega.submitted_at)} · <span className={entrega.status === 'a_tiempo' ? 'text-[#1e8e3e]' : 'text-[#c5221f]'}>{entrega.status === 'a_tiempo' ? 'a tiempo' : 'tarde'}</span></p>
+            <p className="text-sm font-medium text-ink">{studentName}</p>
+            <p className="text-xs text-ink-muted">Entregado {formatDate(entrega.submitted_at)} · <span className={(ENTREGA_STATUS[entrega.status] ?? ENTREGA_STATUS.a_tiempo).text}>{(ENTREGA_STATUS[entrega.status] ?? ENTREGA_STATUS.a_tiempo).label.toLowerCase()}</span></p>
           </div>
         </div>
 
         {entrega.student_comment && (
           <div className="mb-3">
-            <p className="text-xs font-medium text-[#5f6368] mb-1">Comentario del alumno</p>
-            <p className="text-sm text-[#202124] bg-[#f1f3f4] rounded-xl px-3 py-2">{entrega.student_comment}</p>
+            <p className="text-xs font-medium text-ink-muted mb-1">Comentario del alumno</p>
+            <p className="text-sm text-ink bg-canvas rounded-xl px-3 py-2 whitespace-pre-line [overflow-wrap:anywhere]">{entrega.student_comment}</p>
           </div>
         )}
 
         {entrega.files && entrega.files.length > 0 && (
           <div className="mb-4">
-            <p className="text-xs font-medium text-[#5f6368] mb-2">Archivos entregados</p>
+            <p className="text-xs font-medium text-ink-muted mb-2">Archivos entregados</p>
             <div className="flex flex-col gap-1.5">
               {entrega.files.map((f, i) => <FileChip key={i} name={f} href={fileUrl(f)} small />)}
             </div>
@@ -41,33 +44,24 @@ export default function GradeModal({ entrega, maxScore, onSave, onClose }) {
         )}
       </div>
 
-      <form onSubmit={e => { e.preventDefault(); if (valid) onSave(gradeNum, comment) }} className="flex flex-col gap-4">
+      <form onSubmit={e => { e.preventDefault(); if (valid) run(() => onSave(gradeNum, comment)) }} className="flex flex-col gap-4">
         <div>
-          <label className="block text-xs font-medium text-[#5f6368] mb-2">Nota (0 – {maxScore})</label>
+          <label className="block text-xs font-medium text-ink-muted mb-2">Nota (0 – {maxScore})</label>
           <div className="flex items-center gap-3">
             <input
               type="number" min={0} max={maxScore} step={1} value={grade}
               onChange={e => setGrade(e.target.value)}
               placeholder="0"
-              className="w-28 border border-[#dadce0] rounded-lg px-3 py-2.5 text-2xl font-bold text-[#202124] text-center outline-none focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-all"
+              className="w-28 border border-field-border rounded-lg px-3 py-2.5 text-2xl font-bold text-ink text-center tabular-nums outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all"
             />
-            <span className="text-xl text-[#80868b] font-light">/ {maxScore}</span>
+            <span className="text-xl text-ink-muted tabular-nums">/ {maxScore}</span>
             {grade !== '' && !valid && (
-              <span className="text-xs text-[#c5221f]">Fuera de rango</span>
+              <span role="alert" className="text-xs text-danger-text">Ingresa un número entero entre 0 y {maxScore}.</span>
             )}
           </div>
         </div>
-        <div className="relative">
-          <textarea value={comment} onChange={e => setComment(e.target.value)} placeholder=" " rows={3}
-            className="peer w-full border border-[#dadce0] rounded-lg px-3 pt-5 pb-2 text-sm text-[#202124] outline-none focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] transition-all resize-none" />
-          <label className="absolute left-3 top-1.5 text-[10px] text-[#5f6368] peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-sm peer-focus:top-1.5 peer-focus:text-[10px] peer-focus:text-[#1a73e8] transition-all pointer-events-none">Comentario para el alumno (opcional)</label>
-        </div>
-        <div className="flex justify-end gap-2 pt-1">
-          <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-[#1a73e8] hover:bg-[#e8f0fe] rounded-lg transition-colors font-medium">Cancelar</button>
-          <button type="submit" disabled={!valid} className="px-6 py-2 text-sm bg-[#1a73e8] hover:bg-[#1557b0] disabled:opacity-40 text-white rounded-lg transition-colors font-medium">
-            Guardar nota
-          </button>
-        </div>
+        <FormField label="Comentario para el alumno (opcional)" value={comment} onChange={setComment} multiline />
+        <ModalActions onClose={onClose} label="Guardar nota" disabled={!valid} pending={pending} error={error} />
       </form>
     </ModalWrapper>
   )
