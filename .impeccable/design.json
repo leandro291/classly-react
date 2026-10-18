@@ -1,0 +1,647 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T16:25:00+00:00",
+  "title": "Design System: Classly",
+  "extensions": {
+    "colorMeta": {
+      "google-blue": {
+        "role": "primary",
+        "displayName": "Azul Google",
+        "canonical": "#1a73e8",
+        "tonalRamp": [
+          "oklch(25% 0.117 258)",
+          "oklch(35% 0.136 258)",
+          "oklch(45% 0.156 258)",
+          "oklch(55% 0.175 258)",
+          "oklch(65% 0.195 258)",
+          "oklch(75% 0.195 258)",
+          "oklch(85% 0.195 258)",
+          "oklch(95% 0.195 258)"
+        ]
+      },
+      "google-blue-deep": {
+        "role": "primary",
+        "displayName": "Azul Google Profundo",
+        "canonical": "#1557b0",
+        "tonalRamp": [
+          "oklch(25% 0.094 258)",
+          "oklch(35% 0.109 258)",
+          "oklch(45% 0.125 258)",
+          "oklch(55% 0.140 258)",
+          "oklch(65% 0.156 258)",
+          "oklch(75% 0.156 258)",
+          "oklch(85% 0.156 258)",
+          "oklch(95% 0.156 258)"
+        ]
+      },
+      "blue-tint": {
+        "role": "primary",
+        "displayName": "Azul Tinta Pálida",
+        "canonical": "#e8f0fe",
+        "tonalRamp": [
+          "oklch(25% 0.012 262)",
+          "oklch(35% 0.015 262)",
+          "oklch(45% 0.017 262)",
+          "oklch(55% 0.019 262)",
+          "oklch(65% 0.021 262)",
+          "oklch(75% 0.021 262)",
+          "oklch(85% 0.021 262)",
+          "oklch(95% 0.021 262)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#202124",
+        "tonalRamp": [
+          "oklch(25% 0.004 271)",
+          "oklch(35% 0.004 271)",
+          "oklch(45% 0.005 271)",
+          "oklch(55% 0.005 271)",
+          "oklch(65% 0.006 271)",
+          "oklch(75% 0.006 271)",
+          "oklch(85% 0.006 271)",
+          "oklch(95% 0.006 271)"
+        ]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Tinta Apagada",
+        "canonical": "#5f6368",
+        "tonalRamp": [
+          "oklch(25% 0.006 254)",
+          "oklch(35% 0.007 254)",
+          "oklch(45% 0.008 254)",
+          "oklch(55% 0.008 254)",
+          "oklch(65% 0.009 254)",
+          "oklch(75% 0.009 254)",
+          "oklch(85% 0.009 254)",
+          "oklch(95% 0.009 254)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Borde de Campo",
+        "canonical": "#80868b",
+        "tonalRamp": [
+          "oklch(25% 0.006 243)",
+          "oklch(35% 0.007 243)",
+          "oklch(45% 0.008 243)",
+          "oklch(55% 0.009 243)",
+          "oklch(65% 0.010 243)",
+          "oklch(75% 0.010 243)",
+          "oklch(85% 0.010 243)",
+          "oklch(95% 0.010 243)"
+        ]
+      },
+      "scrollbar": {
+        "role": "neutral",
+        "displayName": "Scrollbar",
+        "canonical": "#bdc1c6",
+        "tonalRamp": [
+          "oklch(25% 0.005 254)",
+          "oklch(35% 0.006 254)",
+          "oklch(45% 0.007 254)",
+          "oklch(55% 0.007 254)",
+          "oklch(65% 0.008 254)",
+          "oklch(75% 0.008 254)",
+          "oklch(85% 0.008 254)",
+          "oklch(95% 0.008 254)"
+        ]
+      },
+      "field-line": {
+        "role": "neutral",
+        "displayName": "Línea de Campo",
+        "canonical": "#dadce0",
+        "tonalRamp": [
+          "oklch(25% 0.004 265)",
+          "oklch(35% 0.004 265)",
+          "oklch(45% 0.005 265)",
+          "oklch(55% 0.005 265)",
+          "oklch(65% 0.006 265)",
+          "oklch(75% 0.006 265)",
+          "oklch(85% 0.006 265)",
+          "oklch(95% 0.006 265)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hilo",
+        "canonical": "#e8eaed",
+        "tonalRamp": [
+          "oklch(25% 0.003 258)",
+          "oklch(35% 0.003 258)",
+          "oklch(45% 0.004 258)",
+          "oklch(55% 0.004 258)",
+          "oklch(65% 0.005 258)",
+          "oklch(75% 0.005 258)",
+          "oklch(85% 0.005 258)",
+          "oklch(95% 0.005 258)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Lienzo",
+        "canonical": "#f1f3f4",
+        "tonalRamp": [
+          "oklch(25% 0.002 229)",
+          "oklch(35% 0.002 229)",
+          "oklch(45% 0.002 229)",
+          "oklch(55% 0.002 229)",
+          "oklch(65% 0.003 229)",
+          "oklch(75% 0.003 229)",
+          "oklch(85% 0.003 229)",
+          "oklch(95% 0.003 229)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Superficie",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(25% 0.000 90)",
+          "oklch(35% 0.000 90)",
+          "oklch(45% 0.000 90)",
+          "oklch(55% 0.000 90)",
+          "oklch(65% 0.000 90)",
+          "oklch(75% 0.000 90)",
+          "oklch(85% 0.000 90)",
+          "oklch(95% 0.000 90)"
+        ]
+      },
+      "surface-subtle": {
+        "role": "neutral",
+        "displayName": "Superficie Sutil",
+        "canonical": "#f8f9fa",
+        "tonalRamp": [
+          "oklch(25% 0.001 248)",
+          "oklch(35% 0.001 248)",
+          "oklch(45% 0.001 248)",
+          "oklch(55% 0.002 248)",
+          "oklch(65% 0.002 248)",
+          "oklch(75% 0.002 248)",
+          "oklch(85% 0.002 248)",
+          "oklch(95% 0.002 248)"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Verde Éxito",
+        "canonical": "#1e8e3e",
+        "tonalRamp": [
+          "oklch(25% 0.091 148)",
+          "oklch(35% 0.107 148)",
+          "oklch(45% 0.122 148)",
+          "oklch(55% 0.137 148)",
+          "oklch(65% 0.152 148)",
+          "oklch(75% 0.152 148)",
+          "oklch(85% 0.152 148)",
+          "oklch(95% 0.152 148)"
+        ]
+      },
+      "success-text": {
+        "role": "secondary",
+        "displayName": "Verde Texto",
+        "canonical": "#137333",
+        "tonalRamp": [
+          "oklch(25% 0.078 149)",
+          "oklch(35% 0.091 149)",
+          "oklch(45% 0.104 149)",
+          "oklch(55% 0.117 149)",
+          "oklch(65% 0.130 149)",
+          "oklch(75% 0.130 149)",
+          "oklch(85% 0.130 149)",
+          "oklch(95% 0.130 149)"
+        ]
+      },
+      "success-tint": {
+        "role": "secondary",
+        "displayName": "Verde Pálido",
+        "canonical": "#e6f4ea",
+        "tonalRamp": [
+          "oklch(25% 0.012 155)",
+          "oklch(35% 0.014 155)",
+          "oklch(45% 0.016 155)",
+          "oklch(55% 0.018 155)",
+          "oklch(65% 0.020 155)",
+          "oklch(75% 0.020 155)",
+          "oklch(85% 0.020 155)",
+          "oklch(95% 0.020 155)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Rojo Alerta",
+        "canonical": "#d93025",
+        "tonalRamp": [
+          "oklch(25% 0.124 29)",
+          "oklch(35% 0.144 29)",
+          "oklch(45% 0.165 29)",
+          "oklch(55% 0.186 29)",
+          "oklch(65% 0.206 29)",
+          "oklch(75% 0.206 29)",
+          "oklch(85% 0.206 29)",
+          "oklch(95% 0.206 29)"
+        ]
+      },
+      "danger-deep": {
+        "role": "secondary",
+        "displayName": "Rojo Profundo",
+        "canonical": "#b31412",
+        "tonalRamp": [
+          "oklch(25% 0.114 28)",
+          "oklch(35% 0.133 28)",
+          "oklch(45% 0.152 28)",
+          "oklch(55% 0.171 28)",
+          "oklch(65% 0.190 28)",
+          "oklch(75% 0.190 28)",
+          "oklch(85% 0.190 28)",
+          "oklch(95% 0.190 28)"
+        ]
+      },
+      "danger-text": {
+        "role": "secondary",
+        "displayName": "Rojo Texto",
+        "canonical": "#c5221f",
+        "tonalRamp": [
+          "oklch(25% 0.119 28)",
+          "oklch(35% 0.138 28)",
+          "oklch(45% 0.158 28)",
+          "oklch(55% 0.178 28)",
+          "oklch(65% 0.198 28)",
+          "oklch(75% 0.198 28)",
+          "oklch(85% 0.198 28)",
+          "oklch(95% 0.198 28)"
+        ]
+      },
+      "danger-tint": {
+        "role": "secondary",
+        "displayName": "Rojo Pálido",
+        "canonical": "#fce8e6",
+        "tonalRamp": [
+          "oklch(25% 0.013 24)",
+          "oklch(35% 0.015 24)",
+          "oklch(45% 0.018 24)",
+          "oklch(55% 0.020 24)",
+          "oklch(65% 0.022 24)",
+          "oklch(75% 0.022 24)",
+          "oklch(85% 0.022 24)",
+          "oklch(95% 0.022 24)"
+        ]
+      },
+      "warning-text": {
+        "role": "secondary",
+        "displayName": "Ámbar Texto",
+        "canonical": "#9a5400",
+        "tonalRamp": [
+          "oklch(25% 0.073 60)",
+          "oklch(35% 0.085 60)",
+          "oklch(45% 0.098 60)",
+          "oklch(55% 0.110 60)",
+          "oklch(65% 0.122 60)",
+          "oklch(75% 0.122 60)",
+          "oklch(85% 0.122 60)",
+          "oklch(95% 0.122 60)"
+        ]
+      },
+      "warning-tint": {
+        "role": "secondary",
+        "displayName": "Ámbar Pálido",
+        "canonical": "#fef7e0",
+        "tonalRamp": [
+          "oklch(25% 0.019 93)",
+          "oklch(35% 0.022 93)",
+          "oklch(45% 0.025 93)",
+          "oklch(55% 0.028 93)",
+          "oklch(65% 0.031 93)",
+          "oklch(75% 0.031 93)",
+          "oklch(85% 0.031 93)",
+          "oklch(95% 0.031 93)"
+        ]
+      },
+      "course-green": {
+        "role": "tertiary",
+        "displayName": "Curso Verde",
+        "canonical": "#1a7d37",
+        "tonalRamp": [
+          "oklch(25% 0.082 148)",
+          "oklch(35% 0.096 148)",
+          "oklch(45% 0.110 148)",
+          "oklch(55% 0.124 148)",
+          "oklch(65% 0.137 148)",
+          "oklch(75% 0.137 148)",
+          "oklch(85% 0.137 148)",
+          "oklch(95% 0.137 148)"
+        ]
+      },
+      "course-blue": {
+        "role": "tertiary",
+        "displayName": "Curso Azul",
+        "canonical": "#1568d6",
+        "tonalRamp": [
+          "oklch(25% 0.111 258)",
+          "oklch(35% 0.130 258)",
+          "oklch(45% 0.148 258)",
+          "oklch(55% 0.167 258)",
+          "oklch(65% 0.185 258)",
+          "oklch(75% 0.185 258)",
+          "oklch(85% 0.185 258)",
+          "oklch(95% 0.185 258)"
+        ]
+      },
+      "course-orange": {
+        "role": "tertiary",
+        "displayName": "Curso Naranja",
+        "canonical": "#ab5307",
+        "tonalRamp": [
+          "oklch(25% 0.082 52)",
+          "oklch(35% 0.096 52)",
+          "oklch(45% 0.110 52)",
+          "oklch(55% 0.123 52)",
+          "oklch(65% 0.137 52)",
+          "oklch(75% 0.137 52)",
+          "oklch(85% 0.137 52)",
+          "oklch(95% 0.137 52)"
+        ]
+      },
+      "course-purple": {
+        "role": "tertiary",
+        "displayName": "Curso Violeta",
+        "canonical": "#7627bb",
+        "tonalRamp": [
+          "oklch(25% 0.128 303)",
+          "oklch(35% 0.149 303)",
+          "oklch(45% 0.171 303)",
+          "oklch(55% 0.192 303)",
+          "oklch(65% 0.213 303)",
+          "oklch(75% 0.213 303)",
+          "oklch(85% 0.213 303)",
+          "oklch(95% 0.213 303)"
+        ]
+      },
+      "course-teal": {
+        "role": "tertiary",
+        "displayName": "Curso Verde Azulado",
+        "canonical": "#007a6d",
+        "tonalRamp": [
+          "oklch(25% 0.056 182)",
+          "oklch(35% 0.065 182)",
+          "oklch(45% 0.074 182)",
+          "oklch(55% 0.084 182)",
+          "oklch(65% 0.093 182)",
+          "oklch(75% 0.093 182)",
+          "oklch(85% 0.093 182)",
+          "oklch(95% 0.093 182)"
+        ]
+      },
+      "course-red": {
+        "role": "tertiary",
+        "displayName": "Curso Rojo",
+        "canonical": "#cc2d23",
+        "tonalRamp": [
+          "oklch(25% 0.118 29)",
+          "oklch(35% 0.138 29)",
+          "oklch(45% 0.157 29)",
+          "oklch(55% 0.177 29)",
+          "oklch(65% 0.196 29)",
+          "oklch(75% 0.196 29)",
+          "oklch(85% 0.196 29)",
+          "oklch(95% 0.196 29)"
+        ]
+      },
+      "course-amber": {
+        "role": "tertiary",
+        "displayName": "Curso Ámbar",
+        "canonical": "#965f00",
+        "tonalRamp": [
+          "oklch(25% 0.069 71)",
+          "oklch(35% 0.081 71)",
+          "oklch(45% 0.092 71)",
+          "oklch(55% 0.104 71)",
+          "oklch(65% 0.115 71)",
+          "oklch(75% 0.115 71)",
+          "oklch(85% 0.115 71)",
+          "oklch(95% 0.115 71)"
+        ]
+      },
+      "course-pink": {
+        "role": "tertiary",
+        "displayName": "Curso Rosa",
+        "canonical": "#cb187e",
+        "tonalRamp": [
+          "oklch(25% 0.132 353)",
+          "oklch(35% 0.154 353)",
+          "oklch(45% 0.175 353)",
+          "oklch(55% 0.197 353)",
+          "oklch(65% 0.219 353)",
+          "oklch(75% 0.219 353)",
+          "oklch(85% 0.219 353)",
+          "oklch(95% 0.219 353)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Títulos de estados vacíos y hero de curso."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Título de modal y marca Classly."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Nombre de clase en tarjeta y encabezados de feed."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto de lista, campos y botones."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Metadatos, chips de estado y pestañas en móvil."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-sm",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Reposo mínimo: cabecera superior y tarjeta de clase."
+      },
+      {
+        "name": "shadow-md",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "purpose": "Hover de tarjeta de clase."
+      },
+      {
+        "name": "shadow-lg",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "purpose": "Toasts."
+      },
+      {
+        "name": "shadow-xl",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+        "purpose": "Menús flotantes."
+      },
+      {
+        "name": "shadow-2xl",
+        "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+        "purpose": "Modales."
+      }
+    ],
+    "motion": [
+      {
+        "name": "page-enter",
+        "value": "fadeSlideIn 0.2s ease-out both (opacity 0→1, translateY 8px→0)",
+        "purpose": "Entrada de contenido de pestaña."
+      },
+      {
+        "name": "toast",
+        "value": "300ms transition, translateY 12px→0 y opacidad",
+        "purpose": "Aparición y salida de toasts."
+      },
+      {
+        "name": "color-transition",
+        "value": "transition-colors (150ms, cubic-bezier(0.4, 0, 0.2, 1))",
+        "purpose": "Hover de botones, filas y menús."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal de formularios y vacíos.",
+      "html": "<button class=\"ds-btn-primary\">Crear clase</button>",
+      "css": ".ds-btn-primary{background:#1a73e8;color:#fff;font:500 14px 'Roboto',sans-serif;padding:10px 24px;border:0;border-radius:8px;cursor:pointer;transition:background-color .15s}.ds-btn-primary:hover{background:#1557b0}.ds-btn-primary:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}.ds-btn-primary:active{background:#1557b0}"
+    },
+    {
+      "name": "Text Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Cancelar y acciones secundarias.",
+      "html": "<button class=\"ds-btn-text\">Cancelar</button>",
+      "css": ".ds-btn-text{background:transparent;color:#1a73e8;font:500 14px 'Roboto',sans-serif;padding:8px 16px;border:0;border-radius:8px;cursor:pointer;transition:background-color .15s}.ds-btn-text:hover{background:#e8f0fe}.ds-btn-text:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Confirmación de eliminación o retiro.",
+      "html": "<button class=\"ds-btn-danger\">Eliminar</button>",
+      "css": ".ds-btn-danger{background:#d93025;color:#fff;font:500 14px 'Roboto',sans-serif;padding:8px 20px;border:0;border-radius:8px;cursor:pointer;transition:background-color .15s}.ds-btn-danger:hover{background:#b31412}.ds-btn-danger:focus-visible{outline:2px solid #d93025;outline-offset:2px}"
+    },
+    {
+      "name": "Floating Label Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Campo con etiqueta flotante y anillo de foco azul.",
+      "html": "<div class=\"ds-field\"><input class=\"ds-input\" placeholder=\" \" value=\"Matemática 3°B\"><label class=\"ds-label\">Nombre de la clase</label></div>",
+      "css": ".ds-field{position:relative;width:260px}.ds-input{width:100%;box-sizing:border-box;border:1px solid #80868b;border-radius:8px;padding:24px 12px 8px;font:400 14px 'Roboto',sans-serif;color:#202124;outline:none;background:#fff;transition:all .15s}.ds-input:focus{border-color:#1a73e8;box-shadow:0 0 0 1px #1a73e8}.ds-label{position:absolute;left:12px;top:6px;font:400 12px 'Roboto',sans-serif;color:#5f6368;pointer-events:none;transition:all .15s}.ds-input:focus+.ds-label{color:#1a73e8}"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "chip-status",
+      "description": "Estado de tarea: a tiempo, pronto, vencida, entregada.",
+      "html": "<span class=\"ds-chip\">5 días</span> <span class=\"ds-chip ds-chip-warn\">Mañana</span> <span class=\"ds-chip ds-chip-bad\">Vencida</span> <span class=\"ds-chip ds-chip-ok\">Entregada</span>",
+      "css": ".ds-chip{display:inline-block;font:500 12px 'Roboto',sans-serif;padding:2px 8px;border-radius:9999px;background:#f1f3f4;color:#5f6368}.ds-chip-warn{background:#fef7e0;color:#9a5400}.ds-chip-bad{background:#fce8e6;color:#c5221f}.ds-chip-ok{background:#e6f4ea;color:#137333}"
+    },
+    {
+      "name": "Course Card",
+      "kind": "card",
+      "refersTo": "card-course",
+      "description": "Tarjeta del panel: cabecera de color de curso, profesor y acciones.",
+      "html": "<div class=\"ds-course\"><div class=\"ds-course-head\"><h3 class=\"ds-course-title\">Biología 2°A</h3><p class=\"ds-course-sub\">2026 · Semestre 2</p></div><div class=\"ds-course-body\"><p class=\"ds-course-teacher\">Ana Pérez</p></div></div>",
+      "css": ".ds-course{width:260px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px 0 rgb(0 0 0/.1),0 1px 2px -1px rgb(0 0 0/.1);cursor:pointer;transition:box-shadow .15s}.ds-course:hover{box-shadow:0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1)}.ds-course-head{height:96px;box-sizing:border-box;padding:16px 16px 8px;background:#1a7d37}.ds-course-title{margin:0;font:500 18px/1.25 'Google Sans','Roboto',sans-serif;color:#fff}.ds-course-sub{margin:2px 0 0;font:400 12px 'Roboto',sans-serif;color:#fff}.ds-course-body{padding:12px 16px}.ds-course-teacher{margin:0;font:400 12px 'Roboto',sans-serif;color:#5f6368}"
+    },
+    {
+      "name": "Task Row",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "Fila de tarea: círculo de icono, título, fecha y chip de estado.",
+      "html": "<div class=\"ds-task\"><div class=\"ds-task-ic\"><svg width=\"20\" height=\"20\" fill=\"#1a73e8\" viewBox=\"0 0 24 24\"><path d=\"M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z\"/></svg></div><div class=\"ds-task-main\"><div class=\"ds-task-top\"><h3 class=\"ds-task-title\">Informe de laboratorio</h3><span class=\"ds-task-chip\">3 días</span></div><p class=\"ds-task-meta\">Entrega: 21 oct · 100 pts</p></div></div>",
+      "css": ".ds-task{display:flex;gap:16px;align-items:flex-start;width:420px;box-sizing:border-box;background:#fff;border:1px solid #e8eaed;border-radius:12px;padding:20px;transition:box-shadow .15s}.ds-task:hover{box-shadow:0 1px 3px 0 rgb(0 0 0/.1),0 1px 2px -1px rgb(0 0 0/.1)}.ds-task-ic{width:40px;height:40px;border-radius:9999px;background:#e8f0fe;display:flex;align-items:center;justify-content:center;flex:none}.ds-task-main{flex:1;min-width:0}.ds-task-top{display:flex;justify-content:space-between;gap:6px}.ds-task-title{margin:0;font:500 14px 'Roboto',sans-serif;color:#202124}.ds-task-chip{font:500 12px 'Roboto',sans-serif;padding:2px 8px;border-radius:9999px;background:#fef7e0;color:#9a5400;white-space:nowrap}.ds-task-meta{margin:2px 0 0;font:400 12px 'Roboto',sans-serif;color:#80868b}"
+    },
+    {
+      "name": "Course Tabs",
+      "kind": "nav",
+      "refersTo": "card-surface",
+      "description": "Pestañas de clase con subrayado azul en la activa.",
+      "html": "<div class=\"ds-tabs\"><button class=\"ds-tab ds-tab-on\">Novedades</button><button class=\"ds-tab\">Material</button><button class=\"ds-tab\">Tareas</button></div>",
+      "css": ".ds-tabs{display:flex;background:#fff;border-bottom:1px solid #e8eaed}.ds-tab{padding:16px 24px;font:500 14px 'Roboto',sans-serif;color:#5f6368;background:transparent;border:0;border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,background-color .15s}.ds-tab:hover{color:#202124;background:#f1f3f4}.ds-tab-on,.ds-tab-on:hover{color:#1a73e8;border-bottom-color:#1a73e8;background:transparent}.ds-tab:focus-visible{outline:2px solid #1a73e8;outline-offset:-2px}"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Botón circular de icono: editar y eliminar.",
+      "html": "<button class=\"ds-icon\" title=\"Editar\"><svg width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 24 24\"><path d=\"M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z\"/></svg></button>",
+      "css": ".ds-icon{padding:6px;border:0;border-radius:9999px;background:transparent;color:#5f6368;cursor:pointer;display:inline-flex;transition:background-color .15s,color .15s}.ds-icon:hover{background:#e8f0fe;color:#1a73e8}.ds-icon:focus-visible{outline:2px solid #1a73e8;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "El Pizarrón Amable",
+    "overview": "Classly es un aula virtual calma y familiar, heredera declarada de Google Classroom. Las superficies son blancas sobre un lienzo gris claro, el texto es tinta casi negra, y un único azul de acción (Azul Google) marca todo lo que se puede pulsar o está seleccionado. El color vistoso no decora la interfaz: vive en la cabecera de cada clase, que es lo que le da identidad al curso y deja el resto neutro.\n\nLa densidad es media y funcional: tarjetas con borde fino, filas de lista con icono circular, pestañas subrayadas. La interfaz está pensada para que un estudiante encuentre una tarea y su fecha, o un profesor califique una entrega, sin que el diseño pida atención. Se confirma como rechazo visual: nada de gradientes, glassmorphism ni tableros oscuros tipo SaaS.",
+    "keyCharacteristics": [
+      "Un solo acento de acción (Azul Google) sobre superficies blancas y lienzo gris.",
+      "Color de curso como única fuente de color expresivo, aplicado a cabeceras.",
+      "Bordes finos como separador en reposo; la sombra responde a hover, menús y modales.",
+      "Esquinas redondeadas (8px controles, 12px tarjetas, píldoras para estados).",
+      "Etiquetas flotantes en los campos, texto de apoyo en gris medio."
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "El Azul Google es el único acento de acción en pantalla; el resto del color es semántico (éxito, alerta, peligro) o es color de curso. Un segundo acento de acción no existe.",
+        "section": "colors"
+      },
+      {
+        "name": "The Course Color Rule",
+        "body": "El color de curso solo aparece en la cabecera de la clase y en la franja de su panel de código. Nunca en botones, enlaces ni texto del cuerpo.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Google Sans solo para títulos y marca; Roboto para todo lo demás. Los pesos en uso son 400 y 500; no hay negritas pesadas ni mayúsculas.",
+        "section": "typography"
+      },
+      {
+        "name": "The Border-First Rule",
+        "body": "Una superficie nueva se separa con borde de 1px (#e8eaed), y solo gana sombra al responder a una interacción o al flotar sobre otra capa.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usar Azul Google (#1a73e8) como único color de acción; el hover es #1557b0.",
+      "Do separar superficies nuevas con borde de 1px #e8eaed y reservar la sombra para hover, menús y modales.",
+      "Do usar 8px de esquina en controles, 12px en tarjetas y 16px en modales.",
+      "Do poner el color de curso solo en la cabecera de la clase, rotándolo por orden de la lista.",
+      "Do usar Google Sans (token `font-display`) para títulos y Roboto para el cuerpo, con pesos 400 y 500.",
+      "Do usar etiqueta flotante en cada campo de formulario y texto de apoyo en Tinta Apagada (#5f6368)."
+    ],
+    "donts": [
+      "Don't usar gradientes, glassmorphism ni fondos oscuros tipo tablero SaaS.",
+      "Don't introducir un segundo acento de acción distinto del Azul Google; el rojo, verde y ámbar son solo semánticos.",
+      "Don't pintar botones, enlaces ni texto con el color de curso.",
+      "Don't añadir sombra en reposo a tarjetas nuevas ni subir de `shadow-md` en elementos no flotantes.",
+      "Don't usar pesos mayores de 500 ni texto en mayúsculas para jerarquía.",
+      "Don't escribir colores como hex sueltos en componentes nuevos: hoy solo `brand` y `brand-dark` existen como tokens de `@theme` y el resto se repite en línea, lo que ya generó variantes huérfanas (#e0e0e0, #fafbff)."
+    ]
+  }
+}
